@@ -16,52 +16,67 @@ public class ExpresionRegular {
         this.expresionRegular = expresionRegular;
     }
 
-    private boolean esCorrecta(String expresionRegular) {
+    public boolean esCorrecta() {
         expresionRegular += finDeSecuencia;
-        boolean res = false;
-        int len = expresionRegular.length();
         int i = 0;
         int sigValido = 0; //0 false. 1 true;
-        Stack pila = null;
-        String subEx = expresionRegular.substring(i, len - 1);
+        int preValido = 0; //0 false. 1 true;
+        boolean res = false;
+        Stack pila = new Stack();
+        String subEx = expresionRegular;
+        char chEx = subEx.charAt(0);
         do {
-            switch (subEx) {
-                case "0":
-                    sigValido = (subEx.charAt(i + 1) != '0' || subEx.charAt(i + 1) != '1' ? 0 : 1);
+            switch (chEx) {
+                case '0':
+                    preValido = 1;
+                    sigValido = (subEx.charAt(i + 1) != '0' || subEx.charAt(i + 1) != '1' ? 1 : 0);
                     break;
-                case "1":
-                    sigValido = (subEx.charAt(i + 1) != '0' || subEx.charAt(i + 1) != '1' ? 0 : 1);
+                case '1':
+                    preValido = 1;
+                    sigValido = (subEx.charAt(i + 1) != '0' || subEx.charAt(i + 1) != '1' ? 1 : 0);
                     break;
-                case "(":
-                    pila.push(subEx.charAt(i));
+                case '(':
+                    pila.push(chEx);
+                    preValido = 1;
+                    sigValido = (subEx.charAt(i + 1) != ')' ? 1 : 0);
                     break;
-                case ")":
-                    if (pila.empty()) {
+                case ')':
+                    if (!pila.empty()) {
                         pila.pop();
+                        preValido = 1;
+                        sigValido = 1;
                     } else {
                         return false;
                     }
                     break;
-                case "|":
+                case '|':
+                    preValido = (subEx.charAt(i - 1) != '|' || subEx.charAt(i - 1) != '(' ? 1 : 0);
+                    sigValido = (subEx.charAt(i + 1) != '|' || subEx.charAt(i + 1) != '+'
+                            || subEx.charAt(i + 1) != '*' || subEx.charAt(i + 1) != ')' 
+                            || !finDeSecuencia.equals(subEx.charAt(i + 1)) ? 1 : 0);
                     break;
-                case "+":
+                case '+':
+                    preValido = (subEx.charAt(i - 1) != '+' || subEx.charAt(i - 1) != '|' 
+                            || subEx.charAt(i - 1) != '(' || subEx.charAt(i - 1) != '*' ? 1 : 0);
+                    sigValido = (subEx.charAt(i + 1) != '+' || subEx.charAt(i + 1) != '*' ? 1 : 0);
                     break;
-                case ".":
+                case '.':
+                    preValido = (subEx.charAt(i - 1) == '0' || subEx.charAt(i - 1) == '1' ? 1 : 0);
+                    sigValido = preValido;
                     break;
-                case "*":
+                case '*':
+                    preValido = (subEx.charAt(i - 1) != '+' || subEx.charAt(i - 1) != '|' 
+                            || subEx.charAt(i - 1) != '(' || subEx.charAt(i - 1) != '*' ? 1 : 0);
+                    sigValido = (subEx.charAt(i + 1) != '+' || subEx.charAt(i + 1) != '*' ? 1 : 0);
                     break;
                 default:
-                    res = false;
-                    return res;
+                    return false;
             }
-            if(sigValido == 1)
+            if (sigValido == 0) return false;
+            if (preValido == 0) return false;
             i++;
-            subEx = expresionRegular.substring(i, len);
-        } while ((!finDeSecuencia(subEx)));
-        return res;
-    }
-
-    private boolean finDeSecuencia(String aux) {
-        return aux.charAt(0) == finDeSecuencia.charAt(0);
+            chEx = (subEx.charAt(i));
+        } while (chEx != '¬');      
+        return pila.empty();
     }
 }
