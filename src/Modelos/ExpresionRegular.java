@@ -8,20 +8,18 @@ import java.util.Stack;
 public class ExpresionRegular {
 
     private String expresionRegular = "";
-    private String secuenciaVacia = "Ø";
-    private String finDeSecuencia = "¬";
-    private String secuenciaNula = " ";
+    final private char secuenciaVacia = 'Ø';
+    final private char finDeSecuencia = '¬';
+    final private String secuenciaNula = " ";
 
     public ExpresionRegular(String expresionRegular) {
-        this.expresionRegular = expresionRegular;
+        this.expresionRegular = expresionRegular + finDeSecuencia;
     }
 
     public boolean esCorrecta() {
-        expresionRegular += finDeSecuencia;
         int i = 0;
         int sigValido = 0; //0 false. 1 true;
         int preValido = 0; //0 false. 1 true;
-        boolean res = false;
         Stack pila = new Stack();
         String subEx = expresionRegular;
         char chEx = subEx.charAt(0);
@@ -53,7 +51,7 @@ public class ExpresionRegular {
                     preValido = (subEx.charAt(i - 1) != '|' || subEx.charAt(i - 1) != '(' ? 1 : 0);
                     sigValido = (subEx.charAt(i + 1) != '|' || subEx.charAt(i + 1) != '+'
                             || subEx.charAt(i + 1) != '*' || subEx.charAt(i + 1) != ')' 
-                            || !finDeSecuencia.equals(subEx.charAt(i + 1)) ? 1 : 0);
+                            || finDeSecuencia!=(subEx.charAt(i + 1)) ? 1 : 0);
                     break;
                 case '+':
                     preValido = (subEx.charAt(i - 1) != '+' || subEx.charAt(i - 1) != '|' 
@@ -76,7 +74,15 @@ public class ExpresionRegular {
             if (preValido == 0) return false;
             i++;
             chEx = (subEx.charAt(i));
-        } while (chEx != '¬');      
+        } while (chEx != finDeSecuencia);      
         return pila.empty();
+    }
+
+    public String getExpresionRegular() {
+        return expresionRegular;
+    }
+
+    public void setExpresionRegular(String expresionRegular) {
+        this.expresionRegular = expresionRegular;
     }
 }

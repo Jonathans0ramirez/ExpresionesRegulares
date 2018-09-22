@@ -33,6 +33,8 @@ public class Main extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        /*ExpresionRegular e = new ExpresionRegular("(0|1.0*1)*0*");
+        System.out.println(e.esCorrecta());*/
     }
     
 }
