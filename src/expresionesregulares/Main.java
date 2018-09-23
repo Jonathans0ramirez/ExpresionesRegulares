@@ -5,7 +5,7 @@
  */
 package expresionesregulares;
 
-import Modelos.ExpresionRegular;
+import Modelos.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -32,9 +32,15 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        //launch(args);
         /*ExpresionRegular e = new ExpresionRegular("(0|1.0*1)*0*");
         System.out.println(e.esCorrecta());*/
+        linkedList p = new linkedList(1, "r", "r*");
+        linkedList q = new linkedList(1, "r", "s", "r|s");
+        
+        Node r = p.getStart().getLinkUp(); 
+        p.addAtPos(q, r);
+        System.out.println("Holi");
     }
     
 }

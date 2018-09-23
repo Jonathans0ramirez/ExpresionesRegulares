@@ -114,6 +114,7 @@ public class linkedList {
                 fin.setData(7);
                 fin.setLinkPrevUp(w);
                 w.setData(6);
+                w.setLinkUp(fin);
                 w.setLinkPrevUp(t);
                 w.setLinkPrevDown(e);
                 w.setTransNext(lambda);
@@ -189,19 +190,25 @@ public class linkedList {
         size++;
     }
     
-    public void addAtPos(linkedList e, int pos) {
+    public void addAtPos(linkedList e, Node pos) {
         Node estr = e.getStart();
         Node efn = e.getEnd();        
         if (start == null) {
             start = estr;
             end = efn;
-        } else {
-            end.setLinkUp(estr);
-            end.setTransNext(lambda);
-            deleteAtPos(size);
-            end = efn;
+        } else if (pos.getData() != this.end.getData()){
+            Node prevUpPos = pos.getLinkPrevUp();
+            Node prevDownPos = pos.getLinkPrevDown();
+            Node p = efn.getLinkPrevUp().getLinkPrevUp();
+            Node q = efn.getLinkPrevUp().getLinkPrevDown();
+            prevDownPos.setLinkDown(estr);
+            prevUpPos.setLinkUp(estr);
+            pos.setLinkUp(null);
+            p.setLinkUp(prevDownPos);
+            p = p.getLinkUp();
+            q.setLinkDown(p);
         }
-        size+= e.getSize();
+        size+= e.getSize() - 3;
     }
 
     /* Function to delete node at position */
