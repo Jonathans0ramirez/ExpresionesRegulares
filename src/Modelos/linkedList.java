@@ -17,33 +17,44 @@ public class linkedList {
 
     /* Constructor */
     public linkedList() {
-        Node inicio = new Node(0, null, null, null, null);
+        Node inicio = new Node(1, null, null, null, null, null, null);
         start = inicio;
         end = start;
         size = 1;
     }
     
     public linkedList(int value, String r, String ope) {
-        Node inicio = new Node(0, null, null, null, null);
-        Node fin = new Node(0, null, null, null, null);
-        Node n = new Node(0, null, null, null, null);
-        Node q = new Node(0, null, null, null, null);        
+        Node inicio = new Node(1, null, null, null, null, null, null);
+        Node fin = new Node(0, null, null, null, null, null, null);
+        Node n = new Node(0, null, null, null, null, null, null);
+        Node q = new Node(0, null, null, null, null, null, null);        
         switch (ope){
             case "r":
                 inicio.setTransNext(r);
+                inicio.setLinkUp(fin);
+                fin.setData(2);
+                fin.setLinkPrevUp(inicio);
                 start = inicio;
                 end = fin;
                 size = 2;
                 break;            
             case "r*":
-                n.setLinkNext(fin);
-                n.setLinkPrev(q);
+                fin.setData(4);
+                fin.setLinkPrevUp(n);
+                fin.setLinkPrevDown(inicio);
+                n.setData(3);
+                n.setLinkUp(fin);
+                n.setLinkPrevUp(q);
+                n.setLinkDown(q);
                 n.setTransNext(lambda);
                 n.setTransPrev(lambda);
-                q.setLinkNext(n);
+                q.setData(2);
+                q.setLinkUp(n);
+                q.setLinkPrevUp(inicio);
+                q.setLinkPrevDown(n);
                 q.setTransNext(r);
-                inicio.setLinkNext(q);
-                inicio.setLinkPrev(fin);
+                inicio.setLinkUp(q);
+                inicio.setLinkDown(fin);
                 inicio.setTransNext(lambda);
                 inicio.setTransPrev(lambda);
                 start = inicio;
@@ -51,13 +62,20 @@ public class linkedList {
                 size = 4;
                 break;
             case "r+":
-                n.setLinkPrev(q);
-                n.setLinkNext(fin);
+                fin.setData(4);
+                fin.setLinkPrevUp(n);
+                n.setData(3);
+                n.setLinkDown(q);
+                n.setLinkUp(fin);
+                n.setLinkPrevUp(q);
                 n.setTransNext(lambda);
-                n.setTransPrev(lambda);                
-                q.setLinkNext(n);
+                n.setTransPrev(lambda); 
+                q.setData(2);
+                q.setLinkUp(n);
+                q.setLinkPrevUp(inicio);
+                q.setLinkPrevDown(n);
                 q.setTransNext(r);
-                inicio.setLinkNext(q);
+                inicio.setLinkUp(q);
                 inicio.setTransNext(lambda);
                 start = inicio;
                 end = fin;
@@ -67,37 +85,56 @@ public class linkedList {
     }
     
     public linkedList(int value, String r, String s, String ope) {
-        Node inicio = new Node(0, null, null, null, null); 
-        Node fin = new Node(0, null, null, null, null);        
-        Node n = new Node(0, null, null, null, null);
-        Node q = new Node(0, null, null, null, null);      
-        Node w = new Node(0, null, null, null, null);
-        Node e = new Node(0, null, null, null, null);
-        Node t = new Node(0, null, null, null, null);
+        Node inicio = new Node(1, null, null, null, null, null, null); 
+        Node fin = new Node(0, null, null, null, null, null, null);        
+        Node n = new Node(0, null, null, null, null, null, null);
+        Node q = new Node(0, null, null, null, null, null, null);      
+        Node w = new Node(0, null, null, null, null, null, null);
+        Node e = new Node(0, null, null, null, null, null, null);
+        Node t = new Node(0, null, null, null, null, null, null);
         switch (ope){
             case "r.s":
-                n.setLinkNext(fin);
+                fin.setData(4);
+                fin.setLinkPrevUp(n);
+                n.setData(3);
+                n.setLinkUp(fin);
+                n.setLinkPrevUp(q);
                 n.setTransNext(s);
-                q.setLinkNext(n);
+                q.setData(2);
+                q.setLinkUp(n);
+                q.setLinkPrevUp(inicio);
                 q.setTransNext(lambda);
-                inicio.setLinkNext(q);
+                inicio.setLinkUp(q);
                 inicio.setTransNext(r);
                 start = inicio;
                 end = fin;
                 size = 4;
                 break;
             case "r|s":
+                fin.setData(7);
+                fin.setLinkPrevUp(w);
+                w.setData(6);
+                w.setLinkPrevUp(t);
+                w.setLinkPrevDown(e);
                 w.setTransNext(lambda);
-                e.setLinkPrev(w);
+                e.setData(5);
+                e.setLinkDown(w);
+                e.setLinkPrevDown(n);
                 e.setTransPrev(lambda);
-                t.setLinkNext(w);
+                t.setData(3);
+                t.setLinkUp(w);
+                t.setLinkPrevUp(q);
                 t.setTransNext(lambda);
-                n.setLinkPrev(e);
+                n.setData(4);
+                n.setLinkDown(e);
+                n.setLinkPrevDown(inicio);
                 n.setTransPrev(s);
-                q.setLinkNext(t);
+                q.setData(2);
+                q.setLinkUp(t);
+                q.setLinkPrevUp(inicio);
                 q.setTransNext(r);
-                inicio.setLinkNext(q);
-                inicio.setLinkPrev(n);
+                inicio.setLinkUp(q);
+                inicio.setLinkDown(n);
                 inicio.setTransNext(lambda);
                 inicio.setTransPrev(lambda);
                 start = inicio;
@@ -119,13 +156,13 @@ public class linkedList {
 
     /* Function to insert element at end */
     public void insertAtEnd(int val, String tn, String tp) {
-        Node nptr = new Node(val, null, null, tn, tp);
+        Node nptr = new Node(val, null, null, null, null, tn, tp);
         if (start == null) {
             start = nptr;
             end = start;
         } else {
-            nptr.setLinkPrev(end);
-            end.setLinkNext(nptr);
+            nptr.setLinkPrevUp(end);
+            end.setLinkUp(nptr);
             end = nptr;
         }
         size++;
@@ -133,7 +170,7 @@ public class linkedList {
 
     /* Function to insert element at position */
     public void insertAtPos(int val, int pos, String tn, String tp) {
-        Node nptr = new Node(val, null, null, null, null);
+        Node nptr = new Node(val, null, null, null, null, null, null);
         if (pos == 1) {
             insertAtEnd(val, tn, tp);
             return;
@@ -141,25 +178,25 @@ public class linkedList {
         Node ptr = start;
         for (int i = 2; i <= size; i++) {
             if (i == pos) {
-                Node tmp = ptr.getLinkNext();
-                ptr.setLinkNext(nptr);
-                nptr.setLinkPrev(ptr);
-                nptr.setLinkNext(tmp);
-                tmp.setLinkPrev(nptr);
+                Node tmp = ptr.getLinkUp();
+                ptr.setLinkUp(nptr);
+                nptr.setLinkDown(ptr);
+                nptr.setLinkUp(tmp);
+                tmp.setLinkDown(nptr);
             }
-            ptr = ptr.getLinkNext();
+            ptr = ptr.getLinkUp();
         }
         size++;
     }
     
-    public void addAll(linkedList e) {
+    public void addAtPos(linkedList e, int pos) {
         Node estr = e.getStart();
         Node efn = e.getEnd();        
         if (start == null) {
             start = estr;
             end = efn;
         } else {
-            end.setLinkNext(estr);
+            end.setLinkUp(estr);
             end.setTransNext(lambda);
             deleteAtPos(size);
             end = efn;
@@ -176,37 +213,37 @@ public class linkedList {
                 size = 0;
                 return;
             }
-            start = start.getLinkNext();
-            start.setLinkPrev(null);
+            start = start.getLinkUp();
+            start.setLinkDown(null);
             size--;
             return;
         }
         if (pos == size) {
-            end.setLinkNext(null);
+            end.setLinkUp(null);
             size--;
         }*/
-        Node ptr = start.getLinkNext();
+        Node ptr = start.getLinkUp();
         Node aux = ptr;
         
         for (int i = 1; i <= size; i++){
-            if(aux.getLinkNext()==end){
+            if(aux.getLinkUp()==end){
                 
             }
-            if(aux.getLinkPrev()==end){
+            if(aux.getLinkDown()==end){
                 
             }
         }
-        Node p = ptr.getLinkNext();
+        Node p = ptr.getLinkUp();
         for (int i = 2; i <= size; i++) {
             if (i == pos) {
-                p = ptr.getLinkPrev();
-                Node n = ptr.getLinkNext();
-                p.setLinkNext(n);
-                n.setLinkPrev(p);
+                p = ptr.getLinkDown();
+                Node n = ptr.getLinkUp();
+                p.setLinkUp(n);
+                n.setLinkDown(p);
                 size--;
                 return;
             }
-            ptr = ptr.getLinkNext();
+            ptr = ptr.getLinkUp();
         }
     }
 
@@ -217,16 +254,16 @@ public class linkedList {
             System.out.print("empty\n");
             return;
         }
-        if (start.getLinkNext() == null) {
+        if (start.getLinkUp() == null) {
             System.out.println(start.getData());
             return;
         }
         Node ptr = start;
         System.out.print(start.getData() + " <-> ");
-        ptr = start.getLinkNext();
-        while (ptr.getLinkNext() != null) {
+        ptr = start.getLinkUp();
+        while (ptr.getLinkUp() != null) {
             System.out.print(ptr.getData() + " <-> ");
-            ptr = ptr.getLinkNext();
+            ptr = ptr.getLinkUp();
         }
         System.out.print(ptr.getData() + "\n");
     }

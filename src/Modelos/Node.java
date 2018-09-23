@@ -8,28 +8,32 @@ public class Node {
 
     protected String transNext, transPrev;
     protected int data;
-    protected Node next, prev;
+    protected Node up, down, prevUp, prevDown;
 
     /* Constructor */
     public Node() {
-        next = null;
-        prev = null;
+        up = null;
+        down = null;
+        prevUp = null;
+        prevDown = null;
         data = 0;
         transNext = null;
         transPrev = null;
     }
 
     /* Constructor */
-    public Node(int d, Node n, Node p, String tn, String tp) {
-        data = d;
-        next = n;
-        prev = p;
+    public Node(int v, Node u, Node d, Node pu, Node pd, String tn, String tp) {
+        data = v;
+        up = u;
+        down = d;
+        prevUp = pu;
+        prevDown = pd;
         transNext = tn;
         transPrev = tp;
     }
     
     public boolean vacia() {
-        return this == null && next == null && prev == null;
+        return this == null && up == null && down == null;
     }
     
     public Node buscarNext(Node x) {
@@ -39,7 +43,7 @@ public class Node {
         if (this.equals(x)) {
             return this;
         }
-        next.buscarNext(x);
+        up.buscarNext(x);
         return this;
     }
     
@@ -50,28 +54,48 @@ public class Node {
         if (this.equals(x)) {
             return this;
         }
-        next.buscarPrev(x);
+        up.buscarPrev(x);
         return this;
     }
 
-    /* Function to set link to next node */
-    public void setLinkNext(Node n) {
-        next = n;
+    /* Function to set link to up node */
+    public void setLinkUp(Node u) {
+        up = u;
     }
 
-    /* Function to set link to previous node */
-    public void setLinkPrev(Node p) {
-        prev = p;
+    /* Function to set link to down node */
+    public void setLinkDown(Node d) {
+        down = d;
+    }
+    
+    /* Function to set link to prevUp node */
+    public void setLinkPrevUp(Node pu) {
+        prevUp = pu;
+    }
+    
+    /* Function to set link to prevDown node */
+    public void setLinkPrevDown(Node pd) {
+        prevDown = pd;
     }
 
-    /* Funtion to get link to next node */
-    public Node getLinkNext() {
-        return next;
+    /* Funtion to get link to prevDown node */
+    public Node getLinkPrevDown() {
+        return prevDown;
     }
 
-    /* Function to get link to previous node */
-    public Node getLinkPrev() {
-        return prev;
+    /* Funtion to get link to prevUp node */
+    public Node getLinkPrevUp() {
+        return prevUp;
+    }
+
+    /* Funtion to get link to up node */
+    public Node getLinkUp() {
+        return up;
+    }
+
+    /* Function to get link to down node */
+    public Node getLinkDown() {
+        return down;
     }
 
     /* Function to set data to node */
