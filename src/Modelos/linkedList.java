@@ -196,17 +196,24 @@ public class linkedList {
         if (start == null) {
             start = estr;
             end = efn;
-        } else if (pos.getData() != this.end.getData()){
+            
+        } else if (pos.getData() != this.end.getData()){                        //r/s in r*
             Node prevUpPos = pos.getLinkPrevUp();
             Node prevDownPos = pos.getLinkPrevDown();
             Node p = efn.getLinkPrevUp().getLinkPrevUp();
             Node q = efn.getLinkPrevUp().getLinkPrevDown();
             prevDownPos.setLinkDown(estr);
+            estr.setLinkPrevDown(prevDownPos);            
             prevUpPos.setLinkUp(estr);
+            estr.setLinkPrevUp(prevUpPos);
             pos.setLinkUp(null);
             p.setLinkUp(prevDownPos);
+            prevDownPos.setLinkPrevUp(p);
             p = p.getLinkUp();
             q.setLinkDown(p);
+            p.setLinkPrevDown(q);
+            p = p.getLinkUp();
+            p.setLinkPrevDown(prevUpPos);         
         }
         size+= e.getSize() - 3;
     }
