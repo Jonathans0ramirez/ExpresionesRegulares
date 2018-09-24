@@ -6,7 +6,7 @@ package Modelos;
  */
 public class Node {
 
-    protected String transNext, transPrev;
+    protected String transUp, transDown;
     protected int data;
     protected Node up, down, prevUp, prevDown;
 
@@ -17,8 +17,8 @@ public class Node {
         prevUp = null;
         prevDown = null;
         data = 0;
-        transNext = null;
-        transPrev = null;
+        transUp = null;
+        transDown = null;
     }
 
     /* Constructor */
@@ -28,8 +28,8 @@ public class Node {
         down = d;
         prevUp = pu;
         prevDown = pd;
-        transNext = tn;
-        transPrev = tp;
+        transUp = tn;
+        transDown = tp;
     }
     
     public boolean vacia() {
@@ -108,19 +108,19 @@ public class Node {
         return data;
     }
 
-    public String getTransNext() {
-        return transNext;
+    public String getTransUp() {
+        return transUp;
     }
 
-    public void setTransNext(String transNext) {
-        this.transNext = transNext;
+    public void setTransUp(String transUp) {
+        this.transUp = transUp;
     }
 
-    public String getTransPrev() {
-        return transPrev;
+    public String getTransDown() {
+        return transDown;
     }
 
-    public void setTransPrev(String transPrev) {
-        this.transPrev = transPrev;
+    public void setTransDown(String transDown) {
+        this.transDown = transDown;
     }
 }

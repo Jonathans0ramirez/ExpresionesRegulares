@@ -5,6 +5,8 @@
  */
 package Modelos;
 
+import java.util.Stack;
+
 /**
  *
  * @author PC
@@ -30,7 +32,7 @@ public class linkedList {
         Node q = new Node(0, null, null, null, null, null, null);        
         switch (ope){
             case "r":
-                inicio.setTransNext(r);
+                inicio.setTransUp(r);
                 inicio.setLinkUp(fin);
                 fin.setData(2);
                 fin.setLinkPrevUp(inicio);
@@ -46,17 +48,17 @@ public class linkedList {
                 n.setLinkUp(fin);
                 n.setLinkPrevUp(q);
                 n.setLinkDown(q);
-                n.setTransNext(lambda);
-                n.setTransPrev(lambda);
+                n.setTransUp(lambda);
+                n.setTransDown(lambda);
                 q.setData(2);
                 q.setLinkUp(n);
                 q.setLinkPrevUp(inicio);
                 q.setLinkPrevDown(n);
-                q.setTransNext(r);
+                q.setTransUp(r);
                 inicio.setLinkUp(q);
                 inicio.setLinkDown(fin);
-                inicio.setTransNext(lambda);
-                inicio.setTransPrev(lambda);
+                inicio.setTransUp(lambda);
+                inicio.setTransDown(lambda);
                 start = inicio;
                 end = fin;
                 size = 4;
@@ -68,15 +70,15 @@ public class linkedList {
                 n.setLinkDown(q);
                 n.setLinkUp(fin);
                 n.setLinkPrevUp(q);
-                n.setTransNext(lambda);
-                n.setTransPrev(lambda); 
+                n.setTransUp(lambda);
+                n.setTransDown(lambda); 
                 q.setData(2);
                 q.setLinkUp(n);
                 q.setLinkPrevUp(inicio);
                 q.setLinkPrevDown(n);
-                q.setTransNext(r);
+                q.setTransUp(r);
                 inicio.setLinkUp(q);
-                inicio.setTransNext(lambda);
+                inicio.setTransUp(lambda);
                 start = inicio;
                 end = fin;
                 size = 4;
@@ -99,13 +101,13 @@ public class linkedList {
                 n.setData(3);
                 n.setLinkUp(fin);
                 n.setLinkPrevUp(q);
-                n.setTransNext(s);
+                n.setTransUp(s);
                 q.setData(2);
                 q.setLinkUp(n);
                 q.setLinkPrevUp(inicio);
-                q.setTransNext(lambda);
+                q.setTransUp(lambda);
                 inicio.setLinkUp(q);
-                inicio.setTransNext(r);
+                inicio.setTransUp(r);
                 start = inicio;
                 end = fin;
                 size = 4;
@@ -117,27 +119,27 @@ public class linkedList {
                 w.setLinkUp(fin);
                 w.setLinkPrevUp(t);
                 w.setLinkPrevDown(e);
-                w.setTransNext(lambda);
+                w.setTransUp(lambda);
                 e.setData(5);
-                e.setLinkDown(w);
-                e.setLinkPrevDown(n);
-                e.setTransPrev(lambda);
+                e.setLinkUp(w);
+                e.setLinkPrevUp(n);
+                e.setTransUp(lambda);
                 t.setData(3);
                 t.setLinkUp(w);
                 t.setLinkPrevUp(q);
-                t.setTransNext(lambda);
+                t.setTransUp(lambda);
                 n.setData(4);
-                n.setLinkDown(e);
-                n.setLinkPrevDown(inicio);
-                n.setTransPrev(s);
+                n.setLinkUp(e);
+                n.setLinkPrevUp(inicio);
+                n.setTransUp(s);
                 q.setData(2);
                 q.setLinkUp(t);
                 q.setLinkPrevUp(inicio);
-                q.setTransNext(r);
+                q.setTransUp(r);
                 inicio.setLinkUp(q);
                 inicio.setLinkDown(n);
-                inicio.setTransNext(lambda);
-                inicio.setTransPrev(lambda);
+                inicio.setTransUp(lambda);
+                inicio.setTransDown(lambda);
                 start = inicio;
                 end = fin;
                 size = 7;
@@ -210,12 +212,73 @@ public class linkedList {
             p.setLinkUp(prevDownPos);
             prevDownPos.setLinkPrevUp(p);
             p = p.getLinkUp();
-            q.setLinkDown(p);
+            q.setLinkUp(p);
             p.setLinkPrevDown(q);
             p = p.getLinkUp();
             p.setLinkPrevDown(prevUpPos);         
         }
         size+= e.getSize() - 3;
+    }
+    
+    /*Function to rename the id of Nodes to zero*/
+    public void asignIdZero() {
+        Stack nodes = new Stack();
+        Node init = start;
+        Node p = init;
+        Node q;
+        while (p.getLinkUp() != null || p.getLinkDown() != null) {       
+            if (p.getLinkDown() == null){
+                p.setData(0);
+                p = p.getLinkUp();
+            } else {
+                q = p;
+                nodes.push(q);
+                p.setData(0);
+                p = p.getLinkUp();
+            }
+        }
+        p.setData(0);
+        while (!nodes.empty()) {
+            q = (Node) nodes.pop();
+            q = q.getLinkDown();
+            while (q.getLinkUp() != null && q.getLinkDown() != null) {
+                if (q.getData() != 0) {
+                    q.setData(0);                    
+                }
+                q = q.getLinkUp();
+            }
+        }
+    }
+    
+    /*Function to rename the id of Nodes*/
+    public void asignId() {
+        asignIdZero();
+        Stack nodes = new Stack();
+        Node init = start;
+        Node p = init;
+        Node q;
+        while (p.getLinkUp() != null || p.getLinkDown() != null) {       
+            if (p.getLinkDown() == null){
+                p.setData(0);
+                p = p.getLinkUp();
+            } else {
+                q = p;
+                nodes.push(q);
+                p.setData(0);
+                p = p.getLinkUp();
+            }
+        }
+        p.setData(0);
+        while (!nodes.empty()) {
+            q = (Node) nodes.pop();
+            q = q.getLinkDown();
+            while (q.getLinkUp() != null && q.getLinkDown() != null) {
+                if (q.getData() != 0) {
+                    q.setData(0);                    
+                }
+                q = q.getLinkUp();
+            }
+        }
     }
 
     /* Function to delete node at position */

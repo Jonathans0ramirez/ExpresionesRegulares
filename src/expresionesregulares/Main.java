@@ -40,6 +40,7 @@ public class Main extends Application {
         
         Node r = p.getStart().getLinkUp(); 
         p.addAtPos(q, r);
+        p.asignId();
         System.out.println("Holi");
     }
     
