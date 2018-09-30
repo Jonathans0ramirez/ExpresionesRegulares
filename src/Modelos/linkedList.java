@@ -257,9 +257,10 @@ public class linkedList {
         Node init = start;
         Node p = init;
         Node q;
+        int value = 1;
         while (p.getLinkUp() != null || p.getLinkDown() != null) {       
             if (p.getLinkDown() == null){
-                p.setData(0);
+                p.setData(value);
                 p = p.getLinkUp();
             } else {
                 q = p;
@@ -280,7 +281,7 @@ public class linkedList {
             }
         }
     }
-
+    
     /* Function to delete node at position */
     public void deleteAtPos(int pos) {
         /*if (pos == 1) {

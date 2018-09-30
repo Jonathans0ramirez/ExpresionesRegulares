@@ -32,31 +32,43 @@ public class Node {
         transDown = tp;
     }
     
-    public boolean vacia() {
-        return this == null && up == null && down == null;
+    public boolean isTheEnd() {
+        return up == null && down == null;
     }
     
-    public Node buscarNext(Node x) {
-        if (vacia()) {
-            return null;
+    public boolean isUnion(){
+        Node p = this; 
+        Node q = p.getLinkDown();
+        while (!p.isTheEnd()){
+            if (p == q){
+                return false;
+            }
+            p = p.getLinkUp();
         }
-        if (this.equals(x)) {
-            return this;
-        }
-        up.buscarNext(x);
-        return this;
+        return true;
     }
     
-    public Node buscarPrev(Node x) {
-        if (vacia()) {
-            return null;
-        }
-        if (this.equals(x)) {
-            return this;
-        }
-        up.buscarPrev(x);
-        return this;
-    }
+//    public Node buscarNext(Node x) {
+//        if (vacia()) {
+//            return null;
+//        }
+//        if (this.equals(x)) {
+//            return this;
+//        }
+//        up.buscarNext(x);
+//        return this;
+//    }
+//    
+//    public Node buscarPrev(Node x) {
+//        if (vacia()) {
+//            return null;
+//        }
+//        if (this.equals(x)) {
+//            return this;
+//        }
+//        up.buscarPrev(x);
+//        return this;
+//    }
 
     /* Function to set link to up node */
     public void setLinkUp(Node u) {
