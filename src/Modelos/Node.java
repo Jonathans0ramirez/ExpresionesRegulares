@@ -39,13 +39,36 @@ public class Node {
     public boolean isUnion(){
         Node p = this; 
         Node q = p.getLinkDown();
+        boolean res = false;
         while (!p.isTheEnd()){
             if (p == q){
                 return false;
             }
             p = p.getLinkUp();
         }
-        return true;
+        res = p != q;
+        if (res == false) return false;
+        p = this.getLinkUp();
+        while (!q.isTheEnd()){
+            if (q == p){
+                return false;
+            }
+            q = q.getLinkUp();
+        }
+        res = p != q;
+        return res;
+    }
+    
+    public Node getUnionNode() {
+        Node p = this.getLinkUp().getLinkUp().getLinkUp();
+        Node q = this.getLinkDown().getLinkUp().getLinkUp();
+        while (!q.isTheEnd()) {
+            if (q == p) {
+                return q;
+            }
+            q = q.getLinkUp();
+        }
+        return null;
     }
     
 //    public Node buscarNext(Node x) {

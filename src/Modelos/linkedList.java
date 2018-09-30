@@ -220,66 +220,33 @@ public class linkedList {
         size+= e.getSize() - 3;
     }
     
-    /*Function to rename the id of Nodes to zero*/
-    public void asignIdZero() {
-        Stack nodes = new Stack();
-        Node init = start;
-        Node p = init;
-        Node q;
-        while (p.getLinkUp() != null || p.getLinkDown() != null) {       
-            if (p.getLinkDown() == null){
-                p.setData(0);
-                p = p.getLinkUp();
-            } else {
-                q = p;
-                nodes.push(q);
-                p.setData(0);
-                p = p.getLinkUp();
-            }
-        }
-        p.setData(0);
-        while (!nodes.empty()) {
-            q = (Node) nodes.pop();
-            q = q.getLinkDown();
-            while (q.getLinkUp() != null && q.getLinkDown() != null) {
-                if (q.getData() != 0) {
-                    q.setData(0);                    
-                }
-                q = q.getLinkUp();
-            }
-        }
-    }
-    
     /*Function to rename the id of Nodes*/
     public void asignId() {
-        asignIdZero();
         Stack nodes = new Stack();
         Node init = start;
         Node p = init;
-        Node q;
+        Node z = null;
         int value = 1;
-        while (p.getLinkUp() != null || p.getLinkDown() != null) {       
-            if (p.getLinkDown() == null){
-                p.setData(value);
-                p = p.getLinkUp();
-            } else {
-                q = p;
-                nodes.push(q);
-                p.setData(0);
-                p = p.getLinkUp();
-            }
-        }
-        p.setData(0);
-        while (!nodes.empty()) {
-            q = (Node) nodes.pop();
-            q = q.getLinkDown();
-            while (q.getLinkUp() != null && q.getLinkDown() != null) {
-                if (q.getData() != 0) {
-                    q.setData(0);                    
+        while (!p.isTheEnd()) {
+            if (p.getLinkDown() != null) {
+                if (p.isUnion()) {
+                    nodes.push(p);
+                    nodes.push(p.getUnionNode());
                 }
-                q = q.getLinkUp();
             }
+            if (!nodes.empty() && p.getLinkUp() == nodes.peek()) {
+                nodes.pop();
+                p.setData(value);
+                value++;
+                z = (Node) nodes.pop();
+                p = z.getLinkDown();
+            }
+            p.setData(value);
+            p = p.getLinkUp();
+            value++;
         }
+        p.setData(value);
+        size = value;
     }
     
     /* Function to delete node at position */
