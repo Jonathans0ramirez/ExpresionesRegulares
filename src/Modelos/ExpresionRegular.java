@@ -1,5 +1,6 @@
 package Modelos;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -84,5 +85,38 @@ public class ExpresionRegular {
 
     public void setExpresionRegular(String expresionRegular) {
         this.expresionRegular = expresionRegular;
+    }
+    
+    public ArrayList as () {
+        ArrayList<String> expresion = new ArrayList<>();
+        String exSt = expresionRegular;
+        String concEx = "";
+        String exCh = exSt.substring(0,1);
+        int i = 0;
+        do {
+            switch (exCh) {
+                case "0":
+                    
+                    break;
+                case "1":
+                    break;
+                case "(":
+                    concEx.concat(exCh);
+                    break;
+                case ")":
+                    break;
+                case "|":
+                    break;
+                case "+":
+                    break;
+                case ".":
+                    break;
+                case "*":
+                    break;
+                default:
+            }
+            i++;
+            exCh = (exSt.substring(i, i + 1));
+        } while (!exCh.equals(finDeSecuencia));
     }
 }
