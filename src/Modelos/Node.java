@@ -71,6 +71,18 @@ public class Node {
         return null;
     }
     
+    public boolean isStar() {
+        Node p = this; 
+        Node q = p.getLinkDown();
+        while (!p.isTheEnd()){
+            if (p == q){
+                return true;
+            }
+            p = p.getLinkUp();
+        }
+        return false;
+    }
+    
 //    public Node buscarNext(Node x) {
 //        if (vacia()) {
 //            return null;
