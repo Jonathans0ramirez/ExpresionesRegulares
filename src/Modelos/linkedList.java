@@ -197,9 +197,8 @@ public class linkedList {
         Node efn = e.getEnd();        
         if (start == null) {
             start = estr;
-            end = efn;
-            
-        } else if (pos.getData() != this.end.getData()){                        //r/s in r*
+            end = efn;       
+        } else if (pos.getData() != this.end.getData() && e.getStart().isUnion()){                        //r|s in r* or r⁺
             Node prevUpPos = pos.getLinkPrevUp();
             Node prevDownPos = pos.getLinkPrevDown();
             Node p = efn.getLinkPrevUp().getLinkPrevUp();
@@ -216,8 +215,30 @@ public class linkedList {
             p.setLinkPrevDown(q);
             p = p.getLinkUp();
             p.setLinkPrevDown(prevUpPos);         
+        } else if (pos.getDara() != this.end.getData() && e.getStart().isStar()){                        //any in r* or r⁺
+            Node prevUpPos = pos.getLinkPrevUp();
+            if (pos.getLinkPrevDown != null) Node prevDownPos = pos.getLinkPrevDown().getLinkUp();
+            efn.setLinkDown(estr);
+            efn.setData(lambda);
+            estr.setLinkPrevDown(efn);
+            if (prevDownPos != null) { 
+                efn.setLinkUp(prevDownPos);
+                efn.setData(lambda);
+                prevDownPos.setLinkPrevUp(efn);
+            }
+            prevUpPos.setLinkUp(estr);
+            estr.setLinkPrevUp(prevUpPos);
+        } else {                                                                                         //r* in any
+            Node prevUpPos = pos.getLinkPrevUp();
+            Node nextUpPos = pos.getLinkUp();
+            Node p = efn.getLinkPrevUp();
+            prevUpPos.setLinkUp(estr);
+            estr.setLinkPrevUp(prevUpPos);
+            estr.setLinkDown(nextUpPos);
+            nextUpPos.setLinkPrevDown(estr);
+            p.setLinkUp(nextUpPos);
+            nextUpPos.setLinkPrevUp(p);
         }
-        size+= e.getSize() - 3;
     }
     
     /*Function to rename the id of Nodes*/
