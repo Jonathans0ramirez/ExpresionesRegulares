@@ -1,35 +1,30 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Modelos;
+package Modelos.Thompson;
 
 import java.util.Stack;
 
 /**
  *
- * @author PC
+ * @author Jonathan Ramírez
  */
-public class linkedList {
-    private Node start;
-    private Node end;
+public class AFNDLambda {
+    private NodeLambda start;
+    private NodeLambda end;
     public int size;
     final String lambda = "λ";
 
     /* Constructor */
-    public linkedList() {
-        Node inicio = new Node(1, null, null, null, null, null, null);
+    public AFNDLambda() {
+        NodeLambda inicio = new NodeLambda(1, null, null, null, null, null, null);
         start = inicio;
         end = start;
         size = 1;
     }
     
-    public linkedList(int value, String r, String ope) {
-        Node inicio = new Node(1, null, null, null, null, null, null);
-        Node fin = new Node(0, null, null, null, null, null, null);
-        Node n = new Node(0, null, null, null, null, null, null);
-        Node q = new Node(0, null, null, null, null, null, null);        
+    public AFNDLambda(int value, String r, String ope) {
+        NodeLambda inicio = new NodeLambda(1, null, null, null, null, null, null);
+        NodeLambda fin = new NodeLambda(0, null, null, null, null, null, null);
+        NodeLambda n = new NodeLambda(0, null, null, null, null, null, null);
+        NodeLambda q = new NodeLambda(0, null, null, null, null, null, null);        
         switch (ope){
             case "r":
                 inicio.setTransUp(r);
@@ -86,31 +81,27 @@ public class linkedList {
         }
     }
     
-    public linkedList(int value, String r, String s, String ope) {
-        Node inicio = new Node(1, null, null, null, null, null, null); 
-        Node fin = new Node(0, null, null, null, null, null, null);        
-        Node n = new Node(0, null, null, null, null, null, null);
-        Node q = new Node(0, null, null, null, null, null, null);      
-        Node w = new Node(0, null, null, null, null, null, null);
-        Node e = new Node(0, null, null, null, null, null, null);
-        Node t = new Node(0, null, null, null, null, null, null);
+    public AFNDLambda(int value, String r, String s, String ope) {
+        NodeLambda inicio = new NodeLambda(1, null, null, null, null, null, null); 
+        NodeLambda fin = new NodeLambda(0, null, null, null, null, null, null);        
+        NodeLambda n = new NodeLambda(0, null, null, null, null, null, null);
+        NodeLambda q = new NodeLambda(0, null, null, null, null, null, null);      
+        NodeLambda w = new NodeLambda(0, null, null, null, null, null, null);
+        NodeLambda e = new NodeLambda(0, null, null, null, null, null, null);
+        NodeLambda t = new NodeLambda(0, null, null, null, null, null, null);
         switch (ope){
             case "r.s":
-                fin.setData(4);
+                fin.setData(3);
                 fin.setLinkPrevUp(n);
-                n.setData(3);
+                n.setData(2);
                 n.setLinkUp(fin);
-                n.setLinkPrevUp(q);
+                n.setLinkPrevUp(inicio);
                 n.setTransUp(s);
-                q.setData(2);
-                q.setLinkUp(n);
-                q.setLinkPrevUp(inicio);
-                q.setTransUp(lambda);
-                inicio.setLinkUp(q);
+                inicio.setLinkUp(n);
                 inicio.setTransUp(r);
                 start = inicio;
                 end = fin;
-                size = 4;
+                size = 3;
                 break;
             case "r|s":
                 fin.setData(7);
@@ -157,17 +148,17 @@ public class linkedList {
         return size;
     }
     
-    public void addAtPos(linkedList e, Node pos) {
-        Node estr = e.getStart();
-        Node efn = e.getEnd();        
+    public void addAtPos(AFNDLambda e, NodeLambda pos) {
+        NodeLambda estr = e.getStart();
+        NodeLambda efn = e.getEnd();        
         if (start == null) {
             start = estr;
             end = efn;       
         } else if (pos.getData() != this.end.getData() && e.getStart().isUnion()){                  //r|s in r* or r⁺
-            Node prevUpPos = pos.getLinkPrevUp();
-            Node prevDownPos = pos.getLinkPrevDown();
-            Node p = efn.getLinkPrevUp().getLinkPrevUp();
-            Node q = efn.getLinkPrevUp().getLinkPrevDown();
+            NodeLambda prevUpPos = pos.getLinkPrevUp();
+            NodeLambda prevDownPos = pos.getLinkPrevDown();
+            NodeLambda p = efn.getLinkPrevUp().getLinkPrevUp();
+            NodeLambda q = efn.getLinkPrevUp().getLinkPrevDown();
             prevDownPos.setLinkDown(estr);
             estr.setLinkPrevDown(prevDownPos);            
             prevUpPos.setLinkUp(estr);
@@ -183,9 +174,9 @@ public class linkedList {
             p = p.getLinkUp();
             p.setLinkPrevDown(prevUpPos);         
         } else if (pos.getData() != this.end.getData() && e.getStart().isStar()){                   //r* in any
-            Node prevUpPos = pos.getLinkPrevUp();
-            Node nextUpPos = pos.getLinkUp();
-            Node p = efn.getLinkPrevUp();
+            NodeLambda prevUpPos = pos.getLinkPrevUp();
+            NodeLambda nextUpPos = pos.getLinkUp();
+            NodeLambda p = efn.getLinkPrevUp();
             prevUpPos.setLinkUp(estr);
             estr.setLinkPrevUp(prevUpPos);
             estr.setLinkDown(nextUpPos);
@@ -193,12 +184,12 @@ public class linkedList {
             p.setLinkUp(nextUpPos);
             nextUpPos.setLinkPrevUp(p);
         } else if (pos.getData() != this.end.getData()){                                            //any in r* or r⁺
-            Node prevUpPos = pos.getLinkPrevUp();
+            NodeLambda prevUpPos = pos.getLinkPrevUp();
             efn.setLinkDown(estr);
             efn.setTransDown(lambda);
             estr.setLinkPrevDown(efn);
             if (pos.getLinkPrevDown() != null) { 
-                Node prevDownPos = pos.getLinkPrevDown().getLinkUp();
+                NodeLambda prevDownPos = pos.getLinkPrevDown().getLinkUp();
                 efn.setLinkUp(prevDownPos);
                 efn.setTransUp(lambda);
                 prevDownPos.setLinkPrevUp(efn);
@@ -211,8 +202,8 @@ public class linkedList {
                 this.end.setTransUp(lambda);
                 e.getStart().setLinkPrevUp(this.end);               
             } else {
-                Node p = this.end.getLinkPrevDown();
-                Node q = this.end.getLinkPrevUp();
+                NodeLambda p = this.end.getLinkPrevDown();
+                NodeLambda q = this.end.getLinkPrevUp();
                 p.setLinkDown(e.getStart());
                 e.getStart().setLinkPrevDown(p);
                 q.setLinkUp(e.getStart());
@@ -224,9 +215,9 @@ public class linkedList {
     /*Function to rename the id of Nodes*/
     public void asignId() {
         Stack nodes = new Stack();
-        Node init = start;
-        Node p = init;
-        Node z = null;
+        NodeLambda init = start;
+        NodeLambda p = init;
+        NodeLambda z = null;
         int value = 1;
         while (!p.isTheEnd()) {
             if (p.getLinkDown() != null) {
@@ -239,7 +230,7 @@ public class linkedList {
                 nodes.pop();
                 p.setData(value);
                 value++;
-                z = (Node) nodes.pop();
+                z = (NodeLambda) nodes.pop();
                 p = z.getLinkDown();
             }
             p.setData(value);
@@ -269,8 +260,8 @@ public class linkedList {
 //            end.setLinkUp(null);
 //            size--;
 //        }*/
-//        Node ptr = start.getLinkUp();
-//        Node aux = ptr;
+//        NodeLambda ptr = start.getLinkUp();
+//        NodeLambda aux = ptr;
 //        
 //        for (int i = 1; i <= size; i++){
 //            if(aux.getLinkUp()==end){
@@ -280,11 +271,11 @@ public class linkedList {
 //                
 //            }
 //        }
-//        Node p = ptr.getLinkUp();
+//        NodeLambda p = ptr.getLinkUp();
 //        for (int i = 2; i <= size; i++) {
 //            if (i == pos) {
 //                p = ptr.getLinkDown();
-//                Node n = ptr.getLinkUp();
+//                NodeLambda n = ptr.getLinkUp();
 //                p.setLinkUp(n);
 //                n.setLinkDown(p);
 //                size--;
@@ -294,19 +285,19 @@ public class linkedList {
 //        }
 //    }
 
-    public Node getStart() {
+    public NodeLambda getStart() {
         return start;
     }
 
-    public void setStart(Node start) {
+    public void setStart(NodeLambda start) {
         this.start = start;
     }
 
-    public Node getEnd() {
+    public NodeLambda getEnd() {
         return end;
     }
 
-    public void setEnd(Node end) {
+    public void setEnd(NodeLambda end) {
         this.end = end;
     }
 }

@@ -1,17 +1,17 @@
-package Modelos;
+package Modelos.Thompson;
 
 /**
  *
- * @author PC
+ * @author Jonathan Ramírez
  */
-public class Node {
+public class NodeLambda {
 
     protected String transUp, transDown;
     protected int data;
-    protected Node up, down, prevUp, prevDown;
+    protected NodeLambda up, down, prevUp, prevDown;
 
     /* Constructor */
-    public Node() {
+    public NodeLambda() {
         up = null;
         down = null;
         prevUp = null;
@@ -22,7 +22,7 @@ public class Node {
     }
 
     /* Constructor */
-    public Node(int v, Node u, Node d, Node pu, Node pd, String tn, String tp) {
+    public NodeLambda(int v, NodeLambda u, NodeLambda d, NodeLambda pu, NodeLambda pd, String tn, String tp) {
         data = v;
         up = u;
         down = d;
@@ -37,8 +37,8 @@ public class Node {
     }
     
     public boolean isUnion(){
-        Node p = this; 
-        Node q = p.getLinkDown();
+        NodeLambda p = this; 
+        NodeLambda q = p.getLinkDown();
         boolean res = false;
         while (!p.isTheEnd()){
             if (p == q){
@@ -59,9 +59,9 @@ public class Node {
         return res;
     }
     
-    public Node getUnionNode() {
-        Node p = this.getLinkUp().getLinkUp().getLinkUp();
-        Node q = this.getLinkDown().getLinkUp().getLinkUp();
+    public NodeLambda getUnionNode() {
+        NodeLambda p = this.getLinkUp().getLinkUp().getLinkUp();
+        NodeLambda q = this.getLinkDown().getLinkUp().getLinkUp();
         while (!q.isTheEnd()) {
             if (q == p) {
                 return q;
@@ -72,8 +72,8 @@ public class Node {
     }
     
     public boolean isStar() {
-        Node p = this; 
-        Node q = p.getLinkDown();
+        NodeLambda p = this; 
+        NodeLambda q = p.getLinkDown();
         while (!p.isTheEnd()){
             if (p == q){
                 return true;
@@ -83,7 +83,7 @@ public class Node {
         return false;
     }
     
-//    public Node buscarNext(Node x) {
+//    public NodeLambda buscarNext(NodeLambda x) {
 //        if (vacia()) {
 //            return null;
 //        }
@@ -94,7 +94,7 @@ public class Node {
 //        return this;
 //    }
 //    
-//    public Node buscarPrev(Node x) {
+//    public NodeLambda buscarPrev(NodeLambda x) {
 //        if (vacia()) {
 //            return null;
 //        }
@@ -106,42 +106,42 @@ public class Node {
 //    }
 
     /* Function to set link to up node */
-    public void setLinkUp(Node u) {
+    public void setLinkUp(NodeLambda u) {
         up = u;
     }
 
     /* Function to set link to down node */
-    public void setLinkDown(Node d) {
+    public void setLinkDown(NodeLambda d) {
         down = d;
     }
     
     /* Function to set link to prevUp node */
-    public void setLinkPrevUp(Node pu) {
+    public void setLinkPrevUp(NodeLambda pu) {
         prevUp = pu;
     }
     
     /* Function to set link to prevDown node */
-    public void setLinkPrevDown(Node pd) {
+    public void setLinkPrevDown(NodeLambda pd) {
         prevDown = pd;
     }
 
     /* Funtion to get link to prevDown node */
-    public Node getLinkPrevDown() {
+    public NodeLambda getLinkPrevDown() {
         return prevDown;
     }
 
     /* Funtion to get link to prevUp node */
-    public Node getLinkPrevUp() {
+    public NodeLambda getLinkPrevUp() {
         return prevUp;
     }
 
     /* Funtion to get link to up node */
-    public Node getLinkUp() {
+    public NodeLambda getLinkUp() {
         return up;
     }
 
     /* Function to get link to down node */
-    public Node getLinkDown() {
+    public NodeLambda getLinkDown() {
         return down;
     }
 

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package expresionesregulares;
+package VistaControlador;
 
-import Modelos.*;
+import Modelos.Thompson.AFNDLambda;
+import Modelos.Thompson.NodeLambda;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,10 +36,10 @@ public class Main extends Application {
         //launch(args);
         /*ExpresionRegular e = new ExpresionRegular("(0|1.0*1)*0*");
         System.out.println(e.esCorrecta());*/
-        linkedList p = new linkedList(1, "r", "r*");
-        linkedList q = new linkedList(1, "r", "s", "r|s");
+        AFNDLambda p = new AFNDLambda(1, "r", "r*");
+        AFNDLambda q = new AFNDLambda(1, "r", "s", "r|s");
         
-        Node r = p.getStart().getLinkUp(); 
+        NodeLambda r = p.getStart().getLinkUp(); 
         p.addAtPos(q, r);
         p.asignId();
         System.out.println("Holi");
