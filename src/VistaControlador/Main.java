@@ -48,22 +48,22 @@ public class Main extends Application {
         p.addAtPos(q, r);
         p.asignId();
         
-        r = p.getStart().getLinkUp().getLinkDown();
+        r = p.findNode();
         q = new AFNDLambda(1, "1", "s", "r.s");
         p.addAtPos(q, r);
         p.asignId();
         
-        r = p.getStart().getLinkUp().getLinkDown().getLinkUp();
-        q = new AFNDLambda(1, "1", "s", "r.s");
+        r = p.findNode();
+        q = new AFNDLambda(1, "r", "s", "r.s");
         p.addAtPos(q, r);
         p.asignId();
         
-        r = p.getStart().getLinkUp().getLinkDown().getLinkUp();
+        r = p.findNode();
         q = new AFNDLambda(1, "0", "r*");
         p.addAtPos(q, r);
         p.asignId();
         
-        r = p.getStart().getLinkUp().getLinkDown().getLinkUp().getLinkDown();
+        r = p.findNode();
         q = new AFNDLambda(1, "1", "r");
         p.addAtPos(q, r);
         p.asignId();

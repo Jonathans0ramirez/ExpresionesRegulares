@@ -199,11 +199,12 @@ public class AFNDLambda {
                 prevUpPos.setLinkDown(estr);               
             }
             estr.setLinkPrevUp(prevUpPos);
-            if (e.getSize() > 0) {
-                p = efn.getLinkPrevUp();           
-            } else {
-                p = efn;
-            }           
+            if (pos.getLinkPrevDown() != null) { 
+                prevDownPos = pos.getLinkPrevDown();
+                prevDownPos.setLinkDown(estr);                
+                prevDownPos.setLinkPrevDown(estr);
+            }
+            p = efn.getLinkPrevUp();                     
             if (estr.isStar()) {
                 estr.setLinkDown(nextUpPos);
                 nextUpPos.setLinkPrevDown(estr);
@@ -261,48 +262,28 @@ public class AFNDLambda {
         size = value;
     }
     
-//    /* Function to delete node at position */
-//    public void deleteAtPos(int pos) {
-//        /*if (pos == 1) {
-//            if (size == 1) {
-//                start = null;
-//                end = null;
-//                size = 0;
-//                return;
-//            }
-//            start = start.getLinkUp();
-//            start.setLinkDown(null);
-//            size--;
-//            return;
-//        }
-//        if (pos == size) {
-//            end.setLinkUp(null);
-//            size--;
-//        }*/
-//        NodeLambda ptr = start.getLinkUp();
-//        NodeLambda aux = ptr;
-//        
-//        for (int i = 1; i <= size; i++){
-//            if(aux.getLinkUp()==end){
-//                
-//            }
-//            if(aux.getLinkDown()==end){
-//                
-//            }
-//        }
-//        NodeLambda p = ptr.getLinkUp();
-//        for (int i = 2; i <= size; i++) {
-//            if (i == pos) {
-//                p = ptr.getLinkDown();
-//                NodeLambda n = ptr.getLinkUp();
-//                p.setLinkUp(n);
-//                n.setLinkDown(p);
-//                size--;
-//                return;
-//            }
-//            ptr = ptr.getLinkUp();
-//        }
-//    }
+    /*Function to search the node to replace*/
+    public NodeLambda findNode () {
+        Stack nodes = new Stack();
+        NodeLambda str = this.getStart();
+        NodeLambda p = str;
+        NodeLambda z;
+        while (!p.isTheEnd()) {
+            if (p.getTransUp().equals("r") || (p.getTransUp().equals("s"))) {
+                return p;
+            }
+            if (p.getLinkDown() != null && p.isUnion()) {
+                nodes.push(p);
+            }
+            if (!nodes.empty() && p.getLinkUp().isTheEnd()) {
+                z = (NodeLambda) nodes.pop();
+                p = z.getLinkDown();
+            } else {
+                p = p.getLinkUp();
+            }
+        }
+        return null;
+    }
 
     public NodeLambda getStart() {
         return start;
