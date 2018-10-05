@@ -1,6 +1,7 @@
 package Modelos.Thompson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 /**
@@ -21,7 +22,7 @@ public class Thompson {
     
     public void crearAFD () {
         conjuntosAlpha();
-        
+        Collections.sort(cierreAlpha);
     }
     
     public void conjuntosAlpha () {
@@ -54,7 +55,8 @@ public class Thompson {
                     cierreAlpha.add(p);
                 }
             }
-            estados.add(cierreAlpha);
+            Collections.sort(cierreAlpha);
+            estados.add(cierreAlpha);            
             cierreAlpha = new ArrayList<>();
             
             p = x;
@@ -71,7 +73,12 @@ public class Thompson {
             estado++;
         }
         cierreAlpha.add(p);
+        Collections.sort(cierreAlpha);
         estados.add(cierreAlpha);
         cierreAlpha = new ArrayList<>();
+    }
+    
+    public void concAlpha (Thompson th) {
+        
     }
 }

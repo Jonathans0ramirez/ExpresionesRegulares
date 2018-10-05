@@ -4,7 +4,7 @@ package Modelos.Thompson;
  *
  * @author Jonathan Ramírez
  */
-public class NodeLambda {
+public class NodeLambda implements Comparable<NodeLambda>{
 
     protected String transUp, transDown;
     protected int data;
@@ -113,47 +113,25 @@ public class NodeLambda {
         }
         return p == q;
     }
-    
-//    public NodeLambda buscarNext(NodeLambda x) {
-//        if (vacia()) {
-//            return null;
-//        }
-//        if (this.equals(x)) {
-//            return this;
-//        }
-//        up.buscarNext(x);
-//        return this;
-//    }
-//    
-//    public NodeLambda buscarPrev(NodeLambda x) {
-//        if (vacia()) {
-//            return null;
-//        }
-//        if (this.equals(x)) {
-//            return this;
-//        }
-//        up.buscarPrev(x);
-//        return this;
-//    }
 
     /* Function to set link to up node */
     public void setLinkUp(NodeLambda u) {
-        up = u;
+        this.up = u;
     }
 
     /* Function to set link to down node */
     public void setLinkDown(NodeLambda d) {
-        down = d;
+        this.down = d;
     }
     
     /* Function to set link to prevUp node */
     public void setLinkPrevUp(NodeLambda pu) {
-        prevUp = pu;
+        this.prevUp = pu;
     }
     
     /* Function to set link to prevDown node */
     public void setLinkPrevDown(NodeLambda pd) {
-        prevDown = pd;
+        this.prevDown = pd;
     }
 
     /* Funtion to get link to prevDown node */
@@ -178,7 +156,7 @@ public class NodeLambda {
 
     /* Function to set data to node */
     public void setData(int d) {
-        data = d;
+        this.data = d;
     }
 
     /* Function to get data from node */
@@ -201,4 +179,15 @@ public class NodeLambda {
     public void setTransDown(String transDown) {
         this.transDown = transDown;
     }
+    
+    @Override
+        public int compareTo(NodeLambda o) {
+            if (data < o.getData()) {
+                return -1;
+            }
+            if (data > o.getData()) {
+                return 1;
+            }
+            return 0;
+        }
 }
