@@ -27,26 +27,27 @@ public class Thompson {
     public void conjuntosAlpha () {
         Stack nodes = new Stack();
         Stack lambdaAux = new Stack();
-        NodeLambda start = expresion.getStart();
-        NodeLambda p = start;
+        NodeLambda x;
+        NodeLambda p = expresion.getStart();
         NodeLambda q;
         NodeLambda z = null;
         int estado = 1;
         while (!p.isTheEnd() && estado <= expresion.getSize()) {
-            cierreAlpha.add(start);
-            q = p;
-            while ((p.getTransUp().equals(lambda) || p.getTransDown().equals(lambda)) && !p.isTheEnd()) {
-                if (p.getTransDown().equals(lambda)) {
+            cierreAlpha.add(p);
+            x = p;
+            while (!p.isTheEnd() && p.getTransUp().equals(lambda)) {
+                if (p.getTransDown() != null && p.getTransDown().equals(lambda)) {
                     lambdaAux.push(p);
                 }
                 p = p.getLinkUp();
-                cierreAlpha.add(q);              
+                cierreAlpha.add(p);              
             }
-            while (!cierreAlpha.isEmpty()) {
+            while (!lambdaAux.isEmpty()) {
                 q = (NodeLambda) lambdaAux.pop();
-                p = q;
-                while ((p.getTransUp().equals(lambda) || p.getTransDown().equals(lambda)) && !p.isTheEnd()) {
-                    if (p.getTransDown().equals(lambda)) {
+                p = q.getLinkDown();
+                cierreAlpha.add(p);
+                while (!p.isTheEnd() && p.getTransUp().equals(lambda)) {
+                    if (p.getTransDown() != null && p.getTransDown().equals(lambda)) {
                         lambdaAux.push(p);
                     }
                     p = p.getLinkUp();
@@ -54,8 +55,9 @@ public class Thompson {
                 }
             }
             estados.add(cierreAlpha);
-            cierreAlpha.clear();
+            cierreAlpha = new ArrayList<>();
             
+            p = x;
             if (p.getLinkDown() != null) {
                 if (p.isUnion()) {
                     nodes.push(p);
@@ -67,6 +69,9 @@ public class Thompson {
                 p = z.getLinkDown();
             } else {p = p.getLinkUp();}
             estado++;
-        }  
+        }
+        cierreAlpha.add(p);
+        estados.add(cierreAlpha);
+        cierreAlpha = new ArrayList<>();
     }
 }

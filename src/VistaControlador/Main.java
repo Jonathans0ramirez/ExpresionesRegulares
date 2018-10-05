@@ -7,6 +7,7 @@ package VistaControlador;
 
 import Modelos.Thompson.AFNDLambda;
 import Modelos.Thompson.NodeLambda;
+import Modelos.Thompson.Thompson;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -68,6 +69,9 @@ public class Main extends Application {
         p.addAtPos(q, r);
         p.asignId();
         
+        
+        Thompson th = new Thompson(p);
+        th.crearAFD();
         System.out.println("Holi");
     }
     
