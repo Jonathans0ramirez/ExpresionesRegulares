@@ -37,11 +37,37 @@ public class Main extends Application {
         /*ExpresionRegular e = new ExpresionRegular("(0|1.0*1)*0*");
         System.out.println(e.esCorrecta());*/
         AFNDLambda p = new AFNDLambda(1, "r", "r*");
-        AFNDLambda q = new AFNDLambda(1, "r", "s", "r|s");
+        AFNDLambda q = new AFNDLambda(1, "0", "s", "r|s");       
         
         NodeLambda r = p.getStart().getLinkUp(); 
         p.addAtPos(q, r);
         p.asignId();
+         
+        r = p.getEnd();
+        q = new AFNDLambda(1, "0", "r*");
+        p.addAtPos(q, r);
+        p.asignId();
+        
+        r = p.getStart().getLinkUp().getLinkDown();
+        q = new AFNDLambda(1, "1", "s", "r.s");
+        p.addAtPos(q, r);
+        p.asignId();
+        
+        r = p.getStart().getLinkUp().getLinkDown().getLinkUp();
+        q = new AFNDLambda(1, "1", "s", "r.s");
+        p.addAtPos(q, r);
+        p.asignId();
+        
+        r = p.getStart().getLinkUp().getLinkDown().getLinkUp();
+        q = new AFNDLambda(1, "0", "r*");
+        p.addAtPos(q, r);
+        p.asignId();
+        
+        r = p.getStart().getLinkUp().getLinkDown().getLinkUp().getLinkDown();
+        q = new AFNDLambda(1, "1", "r");
+        p.addAtPos(q, r);
+        p.asignId();
+        
         System.out.println("Holi");
     }
     

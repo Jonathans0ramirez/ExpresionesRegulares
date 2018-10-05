@@ -150,13 +150,16 @@ public class AFNDLambda {
     
     public void addAtPos(AFNDLambda e, NodeLambda pos) {
         NodeLambda estr = e.getStart();
-        NodeLambda efn = e.getEnd();        
-        if (start == null) {
+        NodeLambda efn = e.getEnd(); 
+        NodeLambda prevUpPos;
+        NodeLambda nextUpPos;
+        NodeLambda prevDownPos;       
+        if (start == null) {                                                                    //insert at start
             start = estr;
             end = efn;       
-        } else if (pos.getData() != this.end.getData() && e.getStart().isUnion()){                  //r|s in r* or r⁺
-            NodeLambda prevUpPos = pos.getLinkPrevUp();
-            NodeLambda prevDownPos = pos.getLinkPrevDown();
+        } else if (!pos.isTheEnd() && e.getStart().isUnion() && pos.isPlus()){                  //r|s in r* or r⁺
+            prevUpPos = pos.getLinkPrevUp();
+            prevDownPos = pos.getLinkPrevDown();
             NodeLambda p = efn.getLinkPrevUp().getLinkPrevUp();
             NodeLambda q = efn.getLinkPrevUp().getLinkPrevDown();
             prevDownPos.setLinkDown(estr);
@@ -173,30 +176,46 @@ public class AFNDLambda {
             p.setLinkPrevDown(q);
             p = p.getLinkUp();
             p.setLinkPrevDown(prevUpPos);         
-        } else if (pos.getData() != this.end.getData() && e.getStart().isStar()){                   //r* in any
-            NodeLambda prevUpPos = pos.getLinkPrevUp();
-            NodeLambda nextUpPos = pos.getLinkUp();
-            NodeLambda p = efn.getLinkPrevUp();
-            prevUpPos.setLinkUp(estr);
-            estr.setLinkPrevUp(prevUpPos);
-            estr.setLinkDown(nextUpPos);
-            nextUpPos.setLinkPrevDown(estr);
-            p.setLinkUp(nextUpPos);
-            nextUpPos.setLinkPrevUp(p);
-        } else if (pos.getData() != this.end.getData()){                                            //any in r* or r⁺
-            NodeLambda prevUpPos = pos.getLinkPrevUp();
+        }  else if (!pos.isTheEnd() && pos.isPlus()){                                            //any in r* or r⁺
+            prevUpPos = pos.getLinkPrevUp();
             efn.setLinkDown(estr);
             efn.setTransDown(lambda);
             estr.setLinkPrevDown(efn);
             if (pos.getLinkPrevDown() != null) { 
-                NodeLambda prevDownPos = pos.getLinkPrevDown().getLinkUp();
+                prevDownPos = pos.getLinkPrevDown().getLinkUp();
                 efn.setLinkUp(prevDownPos);
                 efn.setTransUp(lambda);
                 prevDownPos.setLinkPrevUp(efn);
             }
-            prevUpPos.setLinkUp(estr);
+            prevUpPos.setLinkUp(estr);          
             estr.setLinkPrevUp(prevUpPos);
-        } else {        
+        } else if (!pos.isTheEnd()){                                                            //any in any
+            prevUpPos = pos.getLinkPrevUp();
+            nextUpPos = pos.getLinkUp();
+            NodeLambda p;
+            if (prevUpPos.getLinkUp() == pos) {
+                prevUpPos.setLinkUp(estr);          
+            } else if (prevUpPos.getLinkDown() == pos) {
+                prevUpPos.setLinkDown(estr);               
+            }
+            estr.setLinkPrevUp(prevUpPos);
+            if (e.getSize() > 0) {
+                p = efn.getLinkPrevUp();           
+            } else {
+                p = efn;
+            }           
+            if (estr.isStar()) {
+                estr.setLinkDown(nextUpPos);
+                nextUpPos.setLinkPrevDown(estr);
+            }
+            p.setLinkUp(nextUpPos);
+            nextUpPos.setLinkPrevUp(p);  
+            if (efn.getLinkPrevDown() != null) {
+                NodeLambda x = efn.getLinkPrevDown();
+                x.setLinkDown(nextUpPos);
+                nextUpPos.setLinkPrevDown(x);              
+            }
+        } else if (pos.isTheEnd()){                                                             //insert at the End
             if (this.end.getLinkPrevDown() == null) {
                 this.end.setLinkUp(e.getStart());
                 this.end.setTransUp(lambda);

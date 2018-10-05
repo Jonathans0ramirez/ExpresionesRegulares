@@ -36,8 +36,11 @@ public class NodeLambda {
         return up == null && down == null;
     }
     
-    public boolean isUnion(){
-        NodeLambda p = this; 
+    public boolean isUnion() {
+        NodeLambda p = this;
+        if (p.getLinkDown() == null) { 
+            return false;
+        }
         NodeLambda q = p.getLinkDown();
         boolean res = false;
         while (!p.isTheEnd()){
@@ -47,7 +50,9 @@ public class NodeLambda {
             p = p.getLinkUp();
         }
         res = p != q;
-        if (res == false) return false;
+        if (res == false) { 
+            return false;
+        }
         p = this.getLinkUp();
         while (!q.isTheEnd()){
             if (q == p){
@@ -60,20 +65,31 @@ public class NodeLambda {
     }
     
     public NodeLambda getUnionNode() {
-        NodeLambda p = this.getLinkUp().getLinkUp().getLinkUp();
-        NodeLambda q = this.getLinkDown().getLinkUp().getLinkUp();
-        while (!q.isTheEnd()) {
+        NodeLambda p = this.getLinkUp();
+        NodeLambda q = this.getLinkDown();
+        NodeLambda s = q;
+        while (!p.isTheEnd()) {
+            while (!q.isTheEnd()) {
+                if (q == p) {
+                    return q;
+                }
+                q = q.getLinkUp();
+            }
             if (q == p) {
                 return q;
             }
-            q = q.getLinkUp();
+            p = p.getLinkUp();
+            q = s;
         }
         return null;
     }
     
-    public boolean isStar() {
+    public boolean isPlus() {
         NodeLambda p = this; 
-        NodeLambda q = p.getLinkDown();
+        if (p.getLinkPrevDown() == null) {
+            return false;
+        }
+        NodeLambda q = p.getLinkPrevDown();
         while (!p.isTheEnd()){
             if (p == q){
                 return true;
@@ -81,6 +97,21 @@ public class NodeLambda {
             p = p.getLinkUp();
         }
         return false;
+    }
+    
+    public boolean isStar() {
+        NodeLambda p = this;
+        if (p.getLinkDown() == null) {
+            return false;
+        }
+        NodeLambda q = p.getLinkDown();
+        while (!p.isTheEnd()) {
+            if (p == q) {
+                return true;
+            }
+            p = p.getLinkUp();
+        }
+        return p == q;
     }
     
 //    public NodeLambda buscarNext(NodeLambda x) {
