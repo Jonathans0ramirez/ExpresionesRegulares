@@ -1,26 +1,23 @@
 package Modelos.Thompson;
 
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 /**
  *
  * @author Jonathan Ramirez
  */
-public class NodeThompson {
-    protected int transZero;
-    protected int transOne;    
+public class NodeThompson {    
     protected ArrayList nodesLambda;
     protected NodeThompson zero;
     protected NodeThompson one;
     protected String estado;
-
-    public NodeThompson(int transZero, int transOne, ArrayList nodesLambda, NodeThompson zero, NodeThompson one, String estado) {
-        this.transZero = transZero;
-        this.transOne = transOne;
+    
+    public NodeThompson (ArrayList nodesLambda) {
         this.nodesLambda = nodesLambda;
-        this.zero = zero;
-        this.one = one;
-        this.estado = estado;
+        this.zero = null;
+        this.one = null;
+        this.estado = "Rechazo";
     }
 
     public String getEstado() {
@@ -29,22 +26,6 @@ public class NodeThompson {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public int getTransZero() {
-        return transZero;
-    }
-
-    public void setTransZero(int transZero) {
-        this.transZero = transZero;
-    }
-
-    public int getTransOne() {
-        return transOne;
-    }
-
-    public void setTransOne(int transOne) {
-        this.transOne = transOne;
     }
 
     public ArrayList getNodesLambda() {
@@ -70,4 +51,20 @@ public class NodeThompson {
     public void setLinkOne(NodeThompson one) {
         this.one = one;
     }  
+    
+    public String getDataNode () {
+        String res = "";
+        ArrayList nodes = nodesLambda;
+        int len = nodes.size();
+        NodeLambda[] aux= new NodeLambda[nodes.size()];
+        aux = (NodeLambda[]) nodes.toArray(aux);
+        int estado = 1;
+        String pool;
+        while (estado <= len) {
+            pool = Integer.toString(aux[estado].getData());
+            res = res.concat(pool);
+            estado++;
+        }
+        return res;
+    }
 }
