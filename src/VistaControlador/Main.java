@@ -72,6 +72,7 @@ public class Main extends Application {
         
         Thompson th = new Thompson(p);
         th.crearAFD();
+        //th.initTable();
         System.out.println("Holi");
     }
     

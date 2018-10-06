@@ -54,6 +54,7 @@ public class NodeThompson {
     
     public String getDataNode () {
         String res = "";
+        String coma = ", ";
         ArrayList nodes = nodesLambda;
         int len = nodes.size();
         NodeLambda[] aux= new NodeLambda[nodes.size()];
@@ -61,7 +62,10 @@ public class NodeThompson {
         int estado = 1;
         String pool;
         while (estado <= len) {
-            pool = Integer.toString(aux[estado].getData());
+            pool = Integer.toString(aux[estado - 1].getData());
+            if (!res.isEmpty()) {
+                res = res.concat(coma);
+            }
             res = res.concat(pool);
             estado++;
         }

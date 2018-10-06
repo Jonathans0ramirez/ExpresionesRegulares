@@ -2,8 +2,10 @@ package Modelos.Thompson;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -16,7 +18,8 @@ public class Thompson {
     protected ArrayList<ArrayList> estados = new ArrayList<>();
     protected NodeThompson start;
     protected NodeThompson end;
-    private Stack estadosThompson;
+    private final String[] thompsonDone = new String[20];
+    private final String[][] estadosThompson = new String[20][3];
     final String lambda = "λ";
     
     
@@ -25,39 +28,48 @@ public class Thompson {
         this.expresion = e;
     }
     
-    public void crearAFD () {
+    public void crearAFD() {
         conjuntosAlpha();
+        crearAFDTable();
+    }
+    
+    public void crearAFDTable() {
         NodeThompson inicio = new NodeThompson(estados.get(0));
         NodeThompson linkZero = new NodeThompson(cierreZero(inicio));
         NodeThompson linkOne = new NodeThompson(cierreOne(inicio));
-        NodeThompson p, q;
+        NodeThompson p;
+        estadosThompson[0][0] = inicio.getDataNode();
         inicio.setLinkZero(linkZero);
         start = inicio;
         inicio.setLinkOne(linkOne);
-        Stack pilaThompson = new Stack();
-        pilaThompson.push(linkZero);
-        pilaThompson.push(linkOne);
-        String chido = linkZero.getDataNode();
-        estadosThompson.push(chido);
-        chido = linkOne.getDataNode();
-        estadosThompson.push(chido);
-        
-        
-        //ListIterator<NodeThompson> iterator;
-        //int i = 1;
-        while (!pilaThompson.empty()) {         
-            p = (NodeThompson) pilaThompson.pop();
-            linkZero = new NodeThompson(cierreZero(p));
-            linkOne = new NodeThompson(cierreOne(p));
-//            if (linkZero.isYet()) {
-//                pilaThompson.push(linkZero);
-//                pilaThompson.push(linkOne);
-//            }
-            p.setLinkZero(linkZero);
-            p.setLinkOne(linkOne);
+        Queue<NodeThompson> colaThompson = new LinkedList();
+        colaThompson.offer(linkZero);
+        colaThompson.offer(linkOne);
+        thompsonDone[0] = inicio.getDataNode();
+        estadosThompson[0][1] = linkZero.getDataNode();
+        estadosThompson[0][2] = linkOne.getDataNode();
+        int i = 1;
+        while (!colaThompson.isEmpty()) {
+            p = (NodeThompson) colaThompson.poll();
+            if (!isDone(p)) {
+                estadosThompson[i][0] = p.getDataNode();
+                linkZero = new NodeThompson(cierreZero(p));
+                linkOne = new NodeThompson(cierreOne(p));
+                if (!isDone(linkZero)) {
+                    colaThompson.offer(linkZero);
+                }
+                if (!isDone(linkOne)) {
+                    colaThompson.offer(linkOne);
+                }
+                p.setLinkZero(linkZero);
+                estadosThompson[i][1] = linkZero.getDataNode();
+                p.setLinkOne(linkOne);
+                estadosThompson[i][2] = linkOne.getDataNode();
+                thompsonDone[i] = p.getDataNode();
+                i++;
+            }         
         }
     }
-    
     public void conjuntosAlpha () {
         Stack nodes = new Stack();
         Stack lambdaAux = new Stack();
@@ -206,7 +218,39 @@ public class Thompson {
         }
         return res;
     }
+    
+    private boolean isYet(NodeThompson e) {
+        String th = e.getDataNode();
+        if (estadosThompson.length == 0) {
+            return false;
+        }
+        for (int i = 0; i < 20; i++) {
+            if (th.equals(estadosThompson[i][0])) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    private boolean isDone(NodeThompson e) {
+        String th = e.getDataNode();
+        boolean res = false;
+        if (thompsonDone.length == 0) {
+            return false;
+        }
+        for (int i = 0; i < 20; i++) {
+            //for (int j = 0; i < 3; i++) {
+                if (th.equals(thompsonDone[i])) {
+                    res = thompsonDone[i] != null;
+                    if (res == false){
+                        return false;
+                    }
+                }
+            //}
+        }
+        return res;
+    }
+        
     public NodeThompson getStart() {
         return start;
     }
@@ -221,5 +265,9 @@ public class Thompson {
 
     public void setEnd(NodeThompson end) {
         this.end = end;
+    }
+
+    public void initTable() {
+        
     }
 }
