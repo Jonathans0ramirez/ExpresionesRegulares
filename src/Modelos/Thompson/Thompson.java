@@ -3,7 +3,6 @@ package Modelos.Thompson;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Queue;
 import java.util.Stack;
@@ -18,8 +17,8 @@ public class Thompson {
     protected ArrayList<ArrayList> estados = new ArrayList<>();
     protected NodeThompson start;
     protected NodeThompson end;
-    private final String[] thompsonDone = new String[20];
-    private final String[][] estadosThompson = new String[20][3];
+    private final String[] thompsonDone = new String[27];
+    private String[][] estadosThompson = new String[27][4];
     final String lambda = "λ";
     
     
@@ -28,9 +27,12 @@ public class Thompson {
         this.expresion = e;
     }
     
-    public void crearAFD() {
+    public String[][] crearAFD() {
         conjuntosAlpha();
         crearAFDTable();
+        estadosThompson = reconstruir(estadosThompson);
+        //estadosThompson = simplificar(estadosThompson);
+        return estadosThompson;
     }
     
     public void crearAFDTable() {
@@ -48,6 +50,11 @@ public class Thompson {
         thompsonDone[0] = inicio.getDataNode();
         estadosThompson[0][1] = linkZero.getDataNode();
         estadosThompson[0][2] = linkOne.getDataNode();
+        if (isAceptacion(inicio.getDataNode())) {
+            estadosThompson[0][3] = "1";
+        } else {
+            estadosThompson[0][3] = "0";
+        }
         int i = 1;
         while (!colaThompson.isEmpty()) {
             p = (NodeThompson) colaThompson.poll();
@@ -65,6 +72,11 @@ public class Thompson {
                 estadosThompson[i][1] = linkZero.getDataNode();
                 p.setLinkOne(linkOne);
                 estadosThompson[i][2] = linkOne.getDataNode();
+                if (isAceptacion(p.getDataNode())) {
+                    estadosThompson[i][3] = "1";
+                } else {
+                    estadosThompson[i][3] = "0";
+                }
                 thompsonDone[i] = p.getDataNode();
                 i++;
             }         
@@ -239,14 +251,97 @@ public class Thompson {
             return false;
         }
         for (int i = 0; i < 20; i++) {
-            //for (int j = 0; i < 3; i++) {
                 if (th.equals(thompsonDone[i])) {
                     res = thompsonDone[i] != null;
                     if (res == false){
                         return false;
                     }
                 }
-            //}
+        }
+        return res;
+    }
+    
+    private String[][] reconstruir (String[][] estThompson) {
+        String[][] res = estThompson;
+        String[][] nuevo = new String[estadosThompson.length][4];
+        String[] letras = new String[27];
+        letras[0] = "A";
+        letras[1] = "B";
+        letras[2] = "C";
+        letras[3] = "D";
+        letras[4] = "E";
+        letras[5] = "F";
+        letras[6] = "G";
+        letras[7] = "H";
+        letras[8] = "I";
+        letras[9] = "J";
+        letras[10] = "K";
+        letras[11] = "L";
+        letras[12] = "M";
+        letras[13] = "N";
+        letras[14] = "Ñ";
+        letras[15] = "O";
+        letras[16] = "P";
+        letras[17] = "Q";
+        letras[18] = "R";
+        letras[19] = "S";
+        letras[20] = "T";
+        letras[21] = "U";
+        letras[22] = "V";
+        letras[23] = "W";
+        letras[24] = "X";
+        letras[25] = "Y";
+        letras[26] = "Z";
+        
+        String aux;
+        String thDone;
+        for (int s = 0; s < thompsonDone.length; s++) {
+            thDone = thompsonDone[s];
+            if (thDone == null){
+                return res;
+            }
+            for (int i = 0; i < 20; i++) {
+                for (int j = 0; j < 3; j++) {
+                    aux = res[i][j];
+                    if (thDone.equals(aux)){
+                        res[i][j] = letras[s];
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    
+    private String[][] simplificar(String[][] estThompson) {
+         String[][] res = estThompson;
+         String[] letras = new String[11];
+        letras[0] = "A";
+        letras[1] = "B";
+        letras[2] = "C";
+        letras[3] = "D";
+        letras[4] = "E";
+        letras[5] = "F";
+        letras[6] = "G";
+        letras[7] = "H";
+        letras[8] = "I";
+        letras[9] = "J";
+        letras[10] = "K";
+        
+        String aux;
+        String thDone;
+        for (int s = 0; s < thompsonDone.length; s++) {
+            thDone = thompsonDone[s];
+            if (thDone == null){
+                return res;
+            }
+            for (int i = 0; i < 20; i++) {
+                for (int j = 0; j < 3; j++) {
+                    aux = res[i][j];
+                    if (thDone.equals(aux)){
+                        res[i][j] = letras[s];
+                    }
+                }
+            }
         }
         return res;
     }
@@ -269,5 +364,11 @@ public class Thompson {
 
     public void initTable() {
         
+    }
+
+    private boolean isAceptacion(String data) {
+        String end = data.substring(data.length() - 2);
+        int lastEstado = estados.size();
+        return end.equals(String.valueOf(lastEstado));
     }
 }

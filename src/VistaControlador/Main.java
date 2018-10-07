@@ -34,10 +34,12 @@ public class Main extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
+        launch(args);
         /*ExpresionRegular e = new ExpresionRegular("(0|1.0*1)*0*");
         System.out.println(e.esCorrecta());*/
-        AFNDLambda p = new AFNDLambda(1, "r", "r*");
+        //th.initTable();
+        
+        /*AFNDLambda p = new AFNDLambda(1, "r", "r*");
         AFNDLambda q = new AFNDLambda(1, "0", "s", "r|s");       
         
         NodeLambda r = p.getStart().getLinkUp(); 
@@ -71,8 +73,7 @@ public class Main extends Application {
         
         
         Thompson th = new Thompson(p);
-        th.crearAFD();
-        //th.initTable();
+        String[][] exp = th.crearAFD();*/
         System.out.println("Holi");
     }
     

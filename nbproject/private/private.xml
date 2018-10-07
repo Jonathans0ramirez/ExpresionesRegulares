@@ -5,9 +5,9 @@
         <group>
             <file>file:/C:/Users/Juan/Documents/GitHub/ExpresionesRegulares/src/Modelos/Thompson/Thompson.java</file>
             <file>file:/C:/Users/Juan/Documents/GitHub/ExpresionesRegulares/src/Modelos/Thompson/ExpresionRegular.java</file>
-            <file>file:/C:/Users/Juan/Documents/GitHub/ExpresionesRegulares/src/Modelos/Thompson/NodeThompson.java</file>
             <file>file:/C:/Users/Juan/Documents/GitHub/ExpresionesRegulares/src/VistaControlador/Main.java</file>
-            <file>file:/C:/Users/Juan/Documents/GitHub/ExpresionesRegulares/src/Modelos/Thompson/AFNDLambda.java</file>
+            <file>file:/C:/Users/Juan/Documents/GitHub/ExpresionesRegulares/src/VistaControlador/PrincipalController.java</file>
+            <file>file:/C:/Users/Juan/Documents/GitHub/ExpresionesRegulares/src/VistaControlador/Principal.fxml</file>
         </group>
     </open-files>
 </project-private>

@@ -1,14 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="expresionesregulares.PrincipalController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
+<AnchorPane id="AnchorPane" prefHeight="575.0" prefWidth="763.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="VistaControlador.PrincipalController">
+   <children>
+      <AnchorPane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="25.0" prefWidth="763.0" text="Práctica Teoría de Lenguajes y Compiladores" textFill="#000000a6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="Segoe UI Semibold" size="12.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #7ad0ef; -fx-border-color: black;">
+                     <children>
+                      <AnchorPane fx:id="expresionRegularPane" minHeight="0.0" minWidth="0.0" prefHeight="553.0" prefWidth="213.0">
+                           <children>
+                              <ImageView fitHeight="92.0" fitWidth="213.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../imagenes/grafo.jpg" />
+                                 </image>
+                              </ImageView>
+                              <JFXTextField fx:id="expresionRegularTField" alignment="CENTER" focusColor="#203f99" labelFloat="true" layoutX="6.0" layoutY="115.0" prefHeight="30.0" prefWidth="202.0" promptText="Expresión" unFocusColor="#6e3060cc">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXButton fx:id="expresionRegularButton" layoutX="6.0" layoutY="183.0" onAction="#construirAFDAction" prefHeight="27.0" prefWidth="202.0" ripplerFill="#209a8e" style="-fx-border-color: black; -fx-border-radius: 12px; -fx-background-radius: 12px;" text="Construir Autómata Finito" textFill="#266536">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="hileraPane" prefHeight="543.0" prefWidth="224.0">
+                           <children>
+                              <ImageView fitHeight="92.0" fitWidth="213.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../imagenes/bin.jpg" />
+                                 </image>
+                              </ImageView>
+                              <JFXTextField fx:id="hileraTField" alignment="CENTER" editable="false" focusColor="#203f99" labelFloat="true" layoutX="6.0" layoutY="118.0" prefHeight="30.0" prefWidth="202.0" promptText="Hilera Perteneciente" unFocusColor="#6e3060cc">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </JFXTextField>
+                              <JFXButton fx:id="hileraButton" disable="true" layoutX="16.0" layoutY="194.0" onAction="#hileraPerteneceAction" prefHeight="27.0" prefWidth="182.0" ripplerFill="#209a8e" style="-fx-border-color: black; -fx-border-radius: 12px; -fx-background-radius: 12px;" text="¿La Hilera Pertenece?" textFill="#266536">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </JFXButton>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+                <AnchorPane fx:id="AFDPane" minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="554.0">
+                     <children>
+                        <TableView fx:id="AFDTable" disable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">                         
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" layoutX="687.0" prefHeight="25.0" prefWidth="144.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <JFXButton fx:id="minButton" focusTraversable="false" onAction="#minAction" prefHeight="31.0" prefWidth="51.0" ripplerFill="#8e8b8b" text=" ">
+                     <graphic>
+                        <ImageView fitHeight="21.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+                           <image>
+                              <Image url="@../imagenes/minimize.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="maxButton" disable="true" focusTraversable="false" prefHeight="25.0" prefWidth="23.0" text=" ">
+                     <graphic>
+                        <ImageView fitHeight="21.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/maximize.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="closeButton" focusTraversable="false" onAction="#closeAction" ripplerFill="#8e8b8b" text=" ">
+                     <graphic>
+                        <ImageView fitHeight="21.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../imagenes/close.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
