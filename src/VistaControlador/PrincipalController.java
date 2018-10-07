@@ -8,17 +8,20 @@ import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class PrincipalController {
 
@@ -54,12 +57,16 @@ public class PrincipalController {
     private JFXButton maxButton;
     @FXML
     private JFXButton closeButton;
+    Stage stage;
+    Rectangle2D rec2;
+    Double w, h;
     
     ExpresionRegular expresion;
 
     @FXML
     void closeAction(ActionEvent event) {
-
+        Platform.exit();
+        System.exit(0);
     }
 
     @FXML
@@ -80,6 +87,7 @@ public class PrincipalController {
     @FXML
     void hileraPerteneceAction(ActionEvent event) { 
         StackPane stackPane = new StackPane();
+        //stackPane.autosize();
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("¿La hilera pertenece al Autómata Finito?"));
         
@@ -105,12 +113,27 @@ public class PrincipalController {
         });
         content.setActions(button); 
         mainPane.getChildren().add(stackPane);
+        AnchorPane.setTopAnchor(stackPane, (500 - content.getPrefHeight()) / 2);
+	AnchorPane.setLeftAnchor(stackPane, (544 - content.getPrefWidth()) / 2);
         dialog.show();
     }
 
     @FXML
     void minAction(ActionEvent event) {
-
+        stage = (Stage) minButton.getScene().getWindow();
+        if (stage.isMaximized()) {
+            w = rec2.getWidth();
+            h = rec2.getHeight();
+            stage.setMaximized(false);
+            stage.setHeight(h);
+            stage.setWidth(w);
+            stage.centerOnScreen();
+            Platform.runLater(() -> {
+                stage.setIconified(true);
+            });
+        } else {
+            stage.setIconified(true);
+        }
     }
     
     private void createScene(String[] columnNames, String[][] inputData) {

@@ -1,6 +1,5 @@
 package Modelos.Thompson;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 /**
