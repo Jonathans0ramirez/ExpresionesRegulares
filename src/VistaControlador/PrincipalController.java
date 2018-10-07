@@ -1,28 +1,24 @@
 package VistaControlador;
 
-import Modelos.Thompson.AFNDLambda;
 import Modelos.Thompson.ExpresionRegular;
-import Modelos.Thompson.NodeLambda;
 import Modelos.Thompson.Thompson;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.util.Callback;
+import javafx.scene.text.Text;
 
 public class PrincipalController {
 
@@ -58,6 +54,8 @@ public class PrincipalController {
     private JFXButton maxButton;
     @FXML
     private JFXButton closeButton;
+    
+    ExpresionRegular expresion;
 
     @FXML
     void closeAction(ActionEvent event) {
@@ -69,8 +67,8 @@ public class PrincipalController {
         expresionRegularTField.setEditable(false);
         expresionRegularButton.setDisable(true);
         String expresionStr = expresionRegularTField.getText();
-        ExpresionRegular expresion = new ExpresionRegular(expresionStr);
-        String[][] expresionArray = expresion.crearAFD();
+        expresion = new ExpresionRegular(expresionStr);
+        String[][] expresionArray = expresion.crearAFD(expresion);
         String[] columnNames = {"TRANSICIÓN", "0", "1", "ESTADO"};     
         createScene(columnNames, expresionArray);
         hileraButton.setDisable(false);
@@ -80,8 +78,34 @@ public class PrincipalController {
  
 
     @FXML
-    void hileraPerteneceAction(ActionEvent event) {
+    void hileraPerteneceAction(ActionEvent event) { 
+        StackPane stackPane = new StackPane();
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text("¿La hilera pertenece al Autómata Finito?"));
+        
 
+        String hilera = hileraTField.getText();
+        Thompson thompson = expresion.getTh();
+        boolean bool = thompson.pertenece(hilera);
+        String body = "NO IMPLEMENTED";
+        if (bool == true) {
+            body = "Pertenece";
+        } else {
+            body = "No Pertenece";
+        }
+        
+        content.setBody(new Text(body));
+        JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
+        JFXButton button = new JFXButton("Okay");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                dialog.close();
+            }
+        });
+        content.setActions(button); 
+        mainPane.getChildren().add(stackPane);
+        dialog.show();
     }
 
     @FXML

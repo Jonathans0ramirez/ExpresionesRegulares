@@ -12,6 +12,7 @@ public class ExpresionRegular {
     final private char secuenciaVacia = 'Ø';
     final private char finDeSecuencia = '¬';
     final private String secuenciaNula = " ";
+    private Thompson th;
 
     public ExpresionRegular(String expresionRegular) {
         this.expresionRegular = expresionRegular + finDeSecuencia;
@@ -87,7 +88,7 @@ public class ExpresionRegular {
         this.expresionRegular = expresionRegular;
     }
     
-    public String[][] crearAFD (/*ExpresionRegular exp*/) {
+    public String[][] crearAFD (ExpresionRegular expres) {
         AFNDLambda p = new AFNDLambda(1, "r", "r*");
         AFNDLambda q = new AFNDLambda(1, "0", "s", "r|s");       
         
@@ -121,8 +122,17 @@ public class ExpresionRegular {
         p.asignId();
         
         
-        Thompson th = new Thompson(p);
+        th = new Thompson(p);
         String[][] exp = th.crearAFD();
         return exp;
+    }
+    
+    public boolean pertenece (String expres) {
+        boolean exp = th.pertenece(expres);
+        return exp;
+    }
+
+    public Thompson getTh() {
+        return th;
     }
 }

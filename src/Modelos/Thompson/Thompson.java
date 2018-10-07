@@ -35,6 +35,41 @@ public class Thompson {
         return estadosThompson;
     }
     
+    public boolean pertenece (String hilera) {
+        if (hilera.isEmpty()) {
+            return "1".equals(estadosThompson[0][3]); 
+        }
+        hilera = hilera.concat("¬");
+        int i = 0;
+        String ch = hilera.substring(i, i + 1);
+        String aux = "";
+        int index = 0;        
+        while (!ch.equals("¬")) {
+            
+            ch = hilera.substring(i, i + 1);
+            switch (ch) {
+                case "0": 
+                    aux = estadosThompson[index][1];
+                    break;
+                case "1":
+                    aux = estadosThompson[index][2];
+                    break;
+                case "¬":
+                    return "1".equals(estadosThompson[index][3]);
+                default:
+                    return false;
+            }
+            for (int n = 0; n < thompsonDone.length; n++) {
+                if (aux.equals(thompsonDone[n])) {
+                    index = n;
+                    break;
+                }
+            }
+            i++;            
+        }
+        return false;
+    }
+    
     public void crearAFDTable() {
         NodeThompson inicio = new NodeThompson(estados.get(0));
         NodeThompson linkZero = new NodeThompson(cierreZero(inicio));
@@ -308,40 +343,7 @@ public class Thompson {
                     }
                 }
             }
-        }
-        return res;
-    }
-    
-    private String[][] simplificar(String[][] estThompson) {
-         String[][] res = estThompson;
-         String[] letras = new String[11];
-        letras[0] = "A";
-        letras[1] = "B";
-        letras[2] = "C";
-        letras[3] = "D";
-        letras[4] = "E";
-        letras[5] = "F";
-        letras[6] = "G";
-        letras[7] = "H";
-        letras[8] = "I";
-        letras[9] = "J";
-        letras[10] = "K";
-        
-        String aux;
-        String thDone;
-        for (int s = 0; s < thompsonDone.length; s++) {
-            thDone = thompsonDone[s];
-            if (thDone == null){
-                return res;
-            }
-            for (int i = 0; i < 20; i++) {
-                for (int j = 0; j < 3; j++) {
-                    aux = res[i][j];
-                    if (thDone.equals(aux)){
-                        res[i][j] = letras[s];
-                    }
-                }
-            }
+            thompsonDone[s] = letras[s];
         }
         return res;
     }
