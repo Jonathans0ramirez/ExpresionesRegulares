@@ -20,7 +20,7 @@ public class AFNDLambda {
         size = 1;
     }
     
-    public AFNDLambda(int value, String r, String ope) {
+    public AFNDLambda(String r, String ope) {
         NodeLambda inicio = new NodeLambda(1, null, null, null, null, null, null);
         NodeLambda fin = new NodeLambda(0, null, null, null, null, null, null);
         NodeLambda n = new NodeLambda(0, null, null, null, null, null, null);
@@ -81,7 +81,7 @@ public class AFNDLambda {
         }
     }
     
-    public AFNDLambda(int value, String r, String s, String ope) {
+    public AFNDLambda(String r, String s, String ope) {
         NodeLambda inicio = new NodeLambda(1, null, null, null, null, null, null); 
         NodeLambda fin = new NodeLambda(0, null, null, null, null, null, null);        
         NodeLambda n = new NodeLambda(0, null, null, null, null, null, null);

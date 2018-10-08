@@ -31,7 +31,7 @@
                                     <Image url="@../imagenes/grafo.jpg" />
                                  </image>
                               </ImageView>
-                              <JFXTextField fx:id="expresionRegularTField" alignment="CENTER" focusColor="#203f99" labelFloat="true" layoutX="6.0" layoutY="115.0" prefHeight="30.0" prefWidth="202.0" promptText="Expresión" unFocusColor="#6e3060cc">
+                              <JFXTextField fx:id="expresionRegularTField" alignment="CENTER" focusColor="#203f99" labelFloat="true" layoutX="6.0" layoutY="115.0" prefHeight="30.0" prefWidth="202.0" promptText="Expresión" text="(0|1.0*.1)*.0*" unFocusColor="#6e3060cc">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

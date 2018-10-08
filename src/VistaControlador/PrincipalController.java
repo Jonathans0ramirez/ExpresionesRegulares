@@ -70,28 +70,27 @@ public class PrincipalController {
     }
 
     @FXML
-    void construirAFDAction(ActionEvent event) {
-        expresionRegularTField.setEditable(false);
-        expresionRegularButton.setDisable(true);
-        String expresionStr = expresionRegularTField.getText();
-        expresion = new ExpresionRegular(expresionStr);
-        String[][] expresionArray = expresion.crearAFD(expresion);
-        String[] columnNames = {"TRANSICIÓN", "0", "1", "ESTADO"};     
-        createScene(columnNames, expresionArray);
-        hileraButton.setDisable(false);
-        hileraTField.setEditable(true);
+    void construirAFDAction(ActionEvent event) {  
+            String expresionStr = expresionRegularTField.getText();
+            expresion = new ExpresionRegular(expresionStr);
+        if (expresionStr.equals("(0|1.0*.1)*.0*") || expresionStr.equals("(0|1.0*1)*0*")){
+            expresionRegularTField.setEditable(false);
+            expresionRegularButton.setDisable(true);
+            String[][] expresionArray = expresion.crearAFD(expresion);
+            String[] columnNames = {"TRANSICIÓN", "0", "1", "ESTADO"};     
+            createScene(columnNames, expresionArray);
+            hileraButton.setDisable(false);
+            hileraTField.setEditable(true);
+        } else {
+            dialog("EXPRESION NO SOPORTADA", "La expresión ingresada no es permitida por la aplicación, "
+                    + "por favor modifiquela.");
+        }
     }
         
  
 
     @FXML
     void hileraPerteneceAction(ActionEvent event) { 
-        StackPane stackPane = new StackPane();
-        //stackPane.autosize();
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("¿La hilera pertenece al Autómata Finito?"));
-        
-
         String hilera = hileraTField.getText();
         Thompson thompson = expresion.getTh();
         boolean bool = thompson.pertenece(hilera);
@@ -101,7 +100,14 @@ public class PrincipalController {
         } else {
             body = "No Pertenece";
         }
-        
+        dialog("¿La hilera pertenece al Autómata Finito?", body);
+    }
+    
+    public void dialog(String head, String body) {
+        StackPane stackPane = new StackPane();
+        //stackPane.autosize();
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(head));
         content.setBody(new Text(body));
         JFXDialog dialog = new JFXDialog(stackPane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton button = new JFXButton("Okay");
