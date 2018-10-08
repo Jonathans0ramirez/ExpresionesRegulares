@@ -63,12 +63,15 @@ public class PrincipalController {
     
     ExpresionRegular expresion;
 
+	
+	/*Evento de cierre para la ventana principal*/
     @FXML
     void closeAction(ActionEvent event) {
         Platform.exit();
         System.exit(0);
     }
-
+	
+	/*Evento que construye el AFD*/
     @FXML
     void construirAFDAction(ActionEvent event) {  
             String expresionStr = expresionRegularTField.getText();
@@ -86,9 +89,8 @@ public class PrincipalController {
                     + "por favor modifiquela.");
         }
     }
-        
  
-
+	/*Evento para el botón que determina si una hilera pertenece al AFD*/
     @FXML
     void hileraPerteneceAction(ActionEvent event) { 
         String hilera = hileraTField.getText();
@@ -103,6 +105,7 @@ public class PrincipalController {
         dialog("¿La hilera pertenece al Autómata Finito?", body);
     }
     
+	/*Método que genera los diálogos, o ventanas de alerta, en pantalla*/
     public void dialog(String head, String body) {
         StackPane stackPane = new StackPane();
         //stackPane.autosize();
@@ -124,6 +127,7 @@ public class PrincipalController {
         dialog.show();
     }
 
+	/*Evento de minimizar para la ventana principal*/
     @FXML
     void minAction(ActionEvent event) {
         stage = (Stage) minButton.getScene().getWindow();
@@ -142,6 +146,7 @@ public class PrincipalController {
         }
     }
     
+	/*Método que genera la tabla en pantalla del AFD*/
     private void createScene(String[] columnNames, String[][] inputData) {
         AFDTable.setEditable(false);
         AFDTable.setDisable(false);
