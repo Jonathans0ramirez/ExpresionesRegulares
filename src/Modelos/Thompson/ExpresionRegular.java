@@ -15,10 +15,12 @@ public class ExpresionRegular {
     final private String secuenciaNula = " ";
     private Thompson th;
 
+    /* Constructor with the String of expresionRegular as param*/
     public ExpresionRegular(String expresionRegular) {
         this.expresionRegular = expresionRegular + finDeSecuencia;
     }
 
+    /*Define si la expresión regular ingresada está escrita correctamente*/
     public boolean esCorrecta() {
         int i = 0;
         int sigValido = 0; //0 false. 1 true;
@@ -90,6 +92,7 @@ public class ExpresionRegular {
         this.expresionRegular = expresionRegular;
     }
     
+    /*Crea el Autómata Finito Deterministico en base a la expresión regular ingresada, haciendo uso de la contrucción de thompson*/
     public String[][] crearAFD(ExpresionRegular expres) {
         Queue colaExpresion = new LinkedList();
         String r = "";
@@ -250,6 +253,7 @@ public class ExpresionRegular {
         return exp;
     }
     
+    /*Funcion que retornará si el String pertence a la construcción básica de thompson*/
     public boolean pertenece (String expres) {
         boolean exp = th.pertenece(expres);
         return exp;
@@ -259,10 +263,12 @@ public class ExpresionRegular {
         return th;
     }
 
+    /*Función uqe determinará si la expresion regular no tiene parentesis*/
     private boolean withoutParent(String expresionRegular) {
         return !expresionRegular.contains("(");
     }
 
+    /*Función que retornará el número de concatenaciones que hay en la expresión regular*/
     private int getMult(String expresionRegular) {
         int aux = 0;
         int index = expresionRegular.indexOf(".");
