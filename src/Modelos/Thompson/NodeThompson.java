@@ -51,6 +51,7 @@ public class NodeThompson {
         this.one = one;
     }  
     
+    /*Función que retornará como una cadena de caracteres los datos del ArrayList nodesLambda */
     public String getDataNode () {
         String res = "";
         String coma = ", ";
