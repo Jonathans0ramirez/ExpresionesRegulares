@@ -35,7 +35,7 @@ public class NodeLambda implements Comparable<NodeLambda>{
     public boolean isTheEnd() {
         return up == null && down == null;
     }
-    
+     /*Retornará true, si el nodo pertence a la estructura r|s en AFNDLambda*/
     public boolean isUnion() {
         NodeLambda p = this;
         if (p.getLinkDown() == null) { 
@@ -64,6 +64,7 @@ public class NodeLambda implements Comparable<NodeLambda>{
         return res;
     }
     
+    /*Retornará el último nodo de la estructura r|s, es decir la intersección de las dos ligas*/
     public NodeLambda getUnionNode() {
         NodeLambda p = this.getLinkUp();
         NodeLambda q = this.getLinkDown();
@@ -84,6 +85,7 @@ public class NodeLambda implements Comparable<NodeLambda>{
         return null;
     }
     
+    /*Retornará true, si el nodo pertence a la estructura r+ en AFNDLambda*/
     public boolean isPlus() {
         NodeLambda p = this; 
         if (p.getLinkPrevDown() == null) {
@@ -99,6 +101,7 @@ public class NodeLambda implements Comparable<NodeLambda>{
         return false;
     }
     
+    /*Retornará true, si el nodo pertence a la estructura r* en AFNDLambda*/
     public boolean isStar() {
         NodeLambda p = this;
         if (p.getLinkDown() == null) {
