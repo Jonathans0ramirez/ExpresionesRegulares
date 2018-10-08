@@ -20,13 +20,13 @@ public class Thompson {
     private final String[] thompsonDone = new String[27];
     private String[][] estadosThompson = new String[27][4];
     final String lambda = "λ";
-    
-    
 
+    /*Constructor*/
     public Thompson(AFNDLambda e) {
         this.expresion = e;
     }
     
+    /*Método encargado de construir el AFD*/
     public String[][] crearAFD() {
         conjuntosAlpha();
         crearAFDTable();
@@ -35,6 +35,7 @@ public class Thompson {
         return estadosThompson;
     }
     
+    /*Determina si una hilera pertenece al autómata finito generado*/
     public boolean pertenece (String hilera) {
         if (hilera.isEmpty()) {
             return "1".equals(estadosThompson[0][3]); 
@@ -70,6 +71,7 @@ public class Thompson {
         return false;
     }
     
+    /*Crea la representación del AFD en forma de matriz*/
     public void crearAFDTable() {
         NodeThompson inicio = new NodeThompson(estados.get(0));
         NodeThompson linkZero = new NodeThompson(cierreZero(inicio));
@@ -133,6 +135,8 @@ public class Thompson {
             }         
         }
     }
+    
+    /*Crea el cierre alpha de cada uno de los estados*/
     public void conjuntosAlpha () {
         Stack nodes = new Stack();
         Stack lambdaAux = new Stack();
@@ -186,6 +190,7 @@ public class Thompson {
         cierreAlpha = new ArrayList<>();
     }
     
+    /*Concatena dos cierres alpha*/
     public ArrayList concAlpha (ArrayList f, ArrayList e) {
         ArrayList<NodeLambda> list = new ArrayList<>();
         NodeLambda p = null;
@@ -247,6 +252,7 @@ public class Thompson {
         this.estados = estados;
     }
 
+    /*Retorna como arraylist el cierre alpha cuando la entrada es un cero, del nodo ingresado*/
     private ArrayList cierreZero(NodeThompson index) {
         //ArrayList main = estados.get(index);
         ArrayList main = index.getNodesLambda();
@@ -265,6 +271,7 @@ public class Thompson {
         return res;
     }
 
+    /*Retorna como arraylist el cierre alpha cuando la entrada es un uno, del nodo ingresado*/
     private ArrayList cierreOne(NodeThompson index) {
         ArrayList main = index.getNodesLambda();
         ArrayList<NodeLambda> list = new ArrayList<>();
@@ -282,6 +289,7 @@ public class Thompson {
         return res;
     }
     
+    /*Determina si el cierre alpha ya ha sido calculado para el nodo ingresado*/
     private boolean isYet(NodeThompson e) {
         String th = e.getDataNode();
         if (estadosThompson.length == 0) {
@@ -295,6 +303,7 @@ public class Thompson {
         return false;
     }
 
+    /*Determina si el Nodo ya tiene asignado ambos cierres alpha*/
     private boolean isDone(NodeThompson e) {
         String th = e.getDataNode();
         boolean res = false;
@@ -312,6 +321,7 @@ public class Thompson {
         return res;
     }
     
+    /*Le asigna valores a la construcción de Thompson, haciendolo más legible para el usuario*/
     private String[][] reconstruir (String[][] estThompson) {
         String[][] res = estThompson;
         String[][] nuevo = new String[estadosThompson.length][4];
@@ -384,6 +394,7 @@ public class Thompson {
         
     }
 
+    /*Determina si el Nodo es de aceptacióm, o rechazo*/
     private boolean isAceptacion(String data) {
         String end = "";
         int lastEstado = estados.size();
