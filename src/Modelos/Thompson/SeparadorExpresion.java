@@ -13,10 +13,12 @@ public class SeparadorExpresion {
     private String expresionOperando;
     final private String finDeSecuencia = "¬";
 
+    /*Constructor*/
     public SeparadorExpresion() {
         this.colaOperando = new LinkedList();
     }
     
+    /*Función que retornará el String asociado a la primera parte de la expresión regular si esta consta de solo valores*/
     public String operandosNumFirst (String expresion) {
         String auxCola = "";
         String ch = "";
@@ -69,6 +71,7 @@ public class SeparadorExpresion {
         return auxCola;
     }
     
+    /*Función que retornará el String asociado a la primera parte de la expresión regular, si esta tiene como primer carácter un parentesis*/
     public String operandoParentFirst (String expresion) {
         String auxCola = "";
         String ch = "";
@@ -108,6 +111,7 @@ public class SeparadorExpresion {
         return auxCola;
     }
     
+    /*Método principal que separa la expresión regular y la retorna como una Cola*/
     public Queue getOperandos (String expresion) {
         String chInit = expresion.substring(0, 1);
         String aux = "";
@@ -136,6 +140,7 @@ public class SeparadorExpresion {
         return colaOperando;
     }
 
+    /*Determina si en la expresión se puede separar mediante el operando de unión*/
     private boolean sePuedeBuscarSuma(String expresion) {
         boolean outParent = true;
         int i = 0;
