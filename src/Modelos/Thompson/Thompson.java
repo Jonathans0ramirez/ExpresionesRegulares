@@ -79,12 +79,20 @@ public class Thompson {
         inicio.setLinkZero(linkZero);
         start = inicio;
         inicio.setLinkOne(linkOne);
-        Queue<NodeThompson> colaThompson = new LinkedList();
-        colaThompson.offer(linkZero);
-        colaThompson.offer(linkOne);
+        Queue<NodeThompson> colaThompson = new LinkedList(); 
         thompsonDone[0] = inicio.getDataNode();
-        estadosThompson[0][1] = linkZero.getDataNode();
-        estadosThompson[0][2] = linkOne.getDataNode();
+        if (linkZero.getNodesLambda() == null) {
+            estadosThompson[0][1] = "";
+        } else {
+            estadosThompson[0][1] = linkZero.getDataNode();
+            colaThompson.offer(linkZero);
+        }
+        if (linkOne.getNodesLambda() == null) {
+            estadosThompson[0][2] = "";
+        } else {
+            estadosThompson[0][2] = linkOne.getDataNode();
+            colaThompson.offer(linkOne);
+        }
         if (isAceptacion(inicio.getDataNode())) {
             estadosThompson[0][3] = "1";
         } else {
@@ -96,17 +104,25 @@ public class Thompson {
             if (!isDone(p)) {
                 estadosThompson[i][0] = p.getDataNode();
                 linkZero = new NodeThompson(cierreZero(p));
-                linkOne = new NodeThompson(cierreOne(p));
-                if (!isDone(linkZero)) {
-                    colaThompson.offer(linkZero);
-                }
-                if (!isDone(linkOne)) {
-                    colaThompson.offer(linkOne);
-                }
+                linkOne = new NodeThompson(cierreOne(p));       
                 p.setLinkZero(linkZero);
-                estadosThompson[i][1] = linkZero.getDataNode();
+                if (linkZero.getNodesLambda() == null) {
+                    estadosThompson[i][1] = "";
+                } else {
+                    if (!isDone(linkZero)) {
+                        colaThompson.offer(linkZero);
+                    }
+                    estadosThompson[i][1] = linkZero.getDataNode();
+                }
                 p.setLinkOne(linkOne);
-                estadosThompson[i][2] = linkOne.getDataNode();
+                if (linkOne.getNodesLambda() == null) {
+                    estadosThompson[i][2] = "";
+                } else {
+                    if (!isDone(linkOne)) {
+                        colaThompson.offer(linkOne);
+                    }
+                    estadosThompson[i][2] = linkOne.getDataNode();
+                }
                 if (isAceptacion(p.getDataNode())) {
                     estadosThompson[i][3] = "1";
                 } else {
@@ -369,8 +385,14 @@ public class Thompson {
     }
 
     private boolean isAceptacion(String data) {
-        String end = data.substring(data.length() - 2);
+        String end = "";
         int lastEstado = estados.size();
-        return end.equals(String.valueOf(lastEstado));
+        if (data.length() < 2) {
+            end = data.substring(data.length() - 1);
+        } else {
+            end = data.substring(data.length() - 2);
+        }
+        
+        return (String.valueOf(lastEstado).contains(end));
     }
 }

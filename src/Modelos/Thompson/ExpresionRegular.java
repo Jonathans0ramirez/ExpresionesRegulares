@@ -62,8 +62,9 @@ public class ExpresionRegular {
                     sigValido = (subEx.charAt(i + 1) != '+' || subEx.charAt(i + 1) != '*' ? 1 : 0);
                     break;
                 case '.':
-                    preValido = (subEx.charAt(i - 1) == '0' || subEx.charAt(i - 1) == '1' ? 1 : 0);
-                    sigValido = preValido;
+                    preValido = (subEx.charAt(i - 1) == '0' || subEx.charAt(i - 1) == '1' 
+                            || subEx.charAt(i - 1) == '*' || subEx.charAt(i - 1) == '+' ? 1 : 0);
+                    sigValido = (subEx.charAt(i + 1) == '0' || subEx.charAt(i + 1) == '1' ? 1 : 0);
                     break;
                 case '*':
                     preValido = (subEx.charAt(i - 1) != '+' || subEx.charAt(i - 1) != '|' 
@@ -151,9 +152,66 @@ public class ExpresionRegular {
                     sCola.offer(s);
                 }
 
+            }*/
+        if (withoutParent(expres.getExpresionRegular())) {
+            int mult = getMult(expres.getExpresionRegular());
+            String expR = expres.getExpresionRegular();
+            p = new AFNDLambda("r", "s", "r.s");
+            mult--;
+            while (mult >= 0) {
+                pos = p.getEnd().getLinkPrevUp();
+                q = new AFNDLambda("r", "s", "r.s");
+                p.addAtPos(q, pos);
+                p.asignId();
+                mult--;
             }
-
-        } else {*/
+            String aux = "";
+            int i = 0;
+            boolean primero = true;
+            String ch = expR.substring(i, i + 1);
+            while (!ch.equals(String.valueOf(finDeSecuencia))) {
+                switch (ch) {
+                    case "0":
+                        aux = aux.concat(ch);
+                        break;
+                    case "1":
+                        aux = aux.concat(ch);
+                        break;
+                    case "*":
+                        aux = aux.concat(ch);
+                        break;
+                    case "+":
+                        aux = aux.concat(ch);
+                        break;
+                    case ".":
+                switch (aux.charAt(aux.length() - 1)) {
+                    case '*':
+                        pos = p.findNode();
+                        q = new AFNDLambda(aux.substring(0, aux.length() - 2), "r*");
+                        p.addAtPos(q, pos);
+                        p.asignId();
+                        break;
+                    case '+':
+                        pos = p.findNode();
+                        q = new AFNDLambda(aux.substring(0, aux.length() - 2), "r+");
+                        p.addAtPos(q, pos);
+                        p.asignId();
+                        break;
+                    default:
+                        pos = p.findNode();
+                        q = new AFNDLambda(aux, "r");
+                        p.addAtPos(q, pos);
+                        p.asignId();
+                        break;
+                }
+                        aux = "";
+                        break;                                  
+                }
+                i++;
+                ch = expR.substring(i, i + 1);
+            }
+        th = new Thompson(p); 
+        } else if (!expres.getExpresionRegular().contains("(0|1.0*.1)*.0*") || !expres.getExpresionRegular().contains("(0|1.0*1)*0*")){
             p = new AFNDLambda("r", "r*");
             q = new AFNDLambda("0", "s", "r|s");
 
@@ -185,9 +243,9 @@ public class ExpresionRegular {
             q = new AFNDLambda("1", "r");
             p.addAtPos(q, pos);
             p.asignId();
-        //}
+            th = new Thompson(p);         
+        }
 
-        th = new Thompson(p);
         String[][] exp = th.crearAFD();
         return exp;
     }
@@ -199,5 +257,24 @@ public class ExpresionRegular {
 
     public Thompson getTh() {
         return th;
+    }
+
+    private boolean withoutParent(String expresionRegular) {
+        return !expresionRegular.contains("(");
+    }
+
+    private int getMult(String expresionRegular) {
+        int aux = 0;
+        int index = expresionRegular.indexOf(".");
+        if (index != -1) {
+            aux = 1;
+        }
+        while (index != -1) {
+            index = expresionRegular.indexOf(".", index + 2);
+            if (index != -1) {
+                aux++;
+            }
+        }
+        return aux;
     }
 }

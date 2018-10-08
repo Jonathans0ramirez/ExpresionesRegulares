@@ -153,10 +153,18 @@ public class AFNDLambda {
         NodeLambda efn = e.getEnd(); 
         NodeLambda prevUpPos;
         NodeLambda nextUpPos;
-        NodeLambda prevDownPos;       
-        if (start == null) {                                                                    //insert at start
+        NodeLambda prevDownPos; 
+        NodeLambda nextDownPos;
+        if (start == pos) {                                                                    //insert at start
             start = estr;
-            end = efn;       
+            prevUpPos = efn.getLinkPrevUp();
+            prevUpPos.setLinkUp(pos);
+            pos.setLinkPrevUp(prevUpPos);
+            if (efn.getLinkPrevDown() != null) {
+                nextDownPos = efn.getLinkPrevDown();
+                nextDownPos.setLinkDown(pos);
+                pos.setLinkPrevDown(nextDownPos);
+            }
         } else if (!pos.isTheEnd() && e.getStart().isUnion() && pos.isPlus()){                  //r|s in r* or r⁺
             prevUpPos = pos.getLinkPrevUp();
             prevDownPos = pos.getLinkPrevDown();

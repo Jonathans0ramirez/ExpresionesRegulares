@@ -73,7 +73,7 @@ public class PrincipalController {
     void construirAFDAction(ActionEvent event) {  
             String expresionStr = expresionRegularTField.getText();
             expresion = new ExpresionRegular(expresionStr);
-        if (expresionStr.equals("(0|1.0*.1)*.0*") || expresionStr.equals("(0|1.0*1)*0*")){
+        if (expresion.esCorrecta()){
             expresionRegularTField.setEditable(false);
             expresionRegularButton.setDisable(true);
             String[][] expresionArray = expresion.crearAFD(expresion);
