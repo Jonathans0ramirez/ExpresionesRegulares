@@ -20,6 +20,7 @@ public class AFNDLambda {
         size = 1;
     }
     
+    /* Constructor with specific param*/
     public AFNDLambda(String r, String ope) {
         NodeLambda inicio = new NodeLambda(1, null, null, null, null, null, null);
         NodeLambda fin = new NodeLambda(0, null, null, null, null, null, null);
@@ -81,6 +82,7 @@ public class AFNDLambda {
         }
     }
     
+    /* Constructor with specific param*/
     public AFNDLambda(String r, String s, String ope) {
         NodeLambda inicio = new NodeLambda(1, null, null, null, null, null, null); 
         NodeLambda fin = new NodeLambda(0, null, null, null, null, null, null);        
@@ -148,6 +150,7 @@ public class AFNDLambda {
         return size;
     }
     
+    /*Function to add a list, to other, in a specific position*/
     public void addAtPos(AFNDLambda e, NodeLambda pos) {
         NodeLambda estr = e.getStart();
         NodeLambda efn = e.getEnd(); 
